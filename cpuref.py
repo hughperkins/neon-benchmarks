@@ -23,7 +23,7 @@ Where:
   n: index into batch
 """
 
-def check_gradW(O, I, W, gradO, gradW, ci, h, w, co, eps=1e-2):
+def check_gradW(I, W, gradO, gradW, ci, h, w, co, eps=1e-2):
 #    eps = 1e4 #hack
     N = I.shape[3]
     iH = I.shape[1]

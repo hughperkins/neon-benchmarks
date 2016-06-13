@@ -15,7 +15,6 @@ def check_outputs(batch_size, layer_def, gpu_O, I, W):
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
 
-    random.seed(123)
     cpuref.check_O(gpu_O=gpu_O, W=W, I=I, c=0, h=0, w=0, n=0)
     for i in range(10):  # draw 10 samples
         co = random.randint(0, output_filters - 1)
@@ -23,6 +22,23 @@ def check_outputs(batch_size, layer_def, gpu_O, I, W):
         ow = random.randint(0, image_size - 1)
         n = random.randint(0, batch_size - 1)
         cpuref.check_O(gpu_O=gpu_O, W=W, I=I, c=co, h=oh, w=ow, n=n)
+
+def check_gradW(batch_size, layer_def, gpu_gradW, I, W, gradO):
+    input_filters = layer_def['Ci']
+    output_filters = layer_def['Co']
+    image_size = layer_def['iW']
+    kernel_size = layer_def['kH']
+
+#    print('gpu_gradW.shape', gpu_gradW.shape)
+#    print(input_filters, image_size, image_size
+    gpu_gradW = gpu_gradW.reshape((input_filters, kernel_size, kernel_size, output_filters))
+    cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, ci=0, h=0, w=0, co=0)
+    for i in range(10):  # draw 10 samples
+        co = random.randint(0, output_filters - 1)
+        kh = random.randint(0, kernel_size - 1)
+        kw = random.randint(0, kernel_size - 1)
+        ci = random.randint(0, input_filters - 1)
+        cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, co=co, h=kh, w=kw, ci=ci)
 
 def test(backend, batch_size, its, layer_def):
     assert layer_def['iH'] == layer_def['iW']
@@ -50,6 +66,7 @@ def test(backend, batch_size, its, layer_def):
     backend_obj.bprop()
     gradW = backend_obj.getGradW()
     gradI = backend_obj.getGradI()
+    check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO)
     
     backend_obj.sync()
 
@@ -84,7 +101,7 @@ def test(backend, batch_size, its, layer_def):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--backend', default='cl')
+    parser.add_argument('--backend', default='winogradcl')
     parser.add_argument('--model', default='vgga')
     args = parser.parse_args()
 

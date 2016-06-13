@@ -4,7 +4,7 @@ import sys
 import time
 import importlib
 import numpy as np
-from mycltensor import MyClTensor
+from winogradcl.backends.kernels.cl.mycltensor import MyClTensor
 from winogradcl.layers.layer import Convolution
 
 from winogradcl.backends.make_backend import make_backend
