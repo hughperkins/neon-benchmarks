@@ -6,18 +6,21 @@ import importlib
 import numpy as np
 from mycltensor import MyClTensor
 from neon.layers.layer import Convolution
+
 from neon.backends.make_backend import make_backend
 
-def test(batch_size, its, layer):
-    np.random.seed(123)
+class Test(object):
+    def __init__(self, batch_size, its, layer):
+        np.random.seed(123)
 
-    input_filters = layer['Ci']
-    output_filters = layer['Co']
-    image_size = layer['iW']
-    assert layer['iH'] == image_size
-    assert layer['kH'] == layer['kW'] == 3
-    with make_backend(batch_size=batch_size,
-            datatype=np.float32, device_id=0) as be:
+        input_filters = layer['Ci']
+        output_filters = layer['Co']
+        image_size = layer['iW']
+        assert layer['iH'] == image_size
+        assert layer['kH'] == layer['kW'] == 3
+        be = make_backend(batch_size=batch_size,
+                datatype=np.float32, device_id=0).be
+
         W = np.random.randn(input_filters,3,3,output_filters).astype(np.float32)
         W_cl = MyClTensor.from_np(be, W)
 
@@ -48,23 +51,18 @@ def test(batch_size, its, layer):
         conv.deltas = gradInputs_cl
         conv.dW = gradW_cl
 
-        conv.bprop(gradOutputs_cl)
+        self.q = be.q
+        self.conv = conv
+        self.inputs_cl = inputs_cl
+        self.gradOutputs_cl = gradOutputs_cl
 
-        fpropCumTime = 0
-        bpropCumTime = 0
-        for it in range(its):
-            start = time.time()
-            conv.fprop(inputs_cl)
-            be.q.finish()
-            end = time.time()
-            fprop = end - start
-            fpropCumTime += end - start
-            
-            start = time.time()
-            conv.bprop(gradOutputs_cl)
-            end = time.time()
-            bprop = end - start
-            bpropCumTime += end - start
-            print('fprop %.3f bprop %.3f' % (fprop, bprop))
-        print('avg fprop %.3f bprop %.3f' % (fpropCumTime / its, bpropCumTime / its))
+    def sync(self):
+        self.q.finish()
+
+    def fprop(self):
+        self.conv.fprop(self.inputs_cl)
+
+    def bprop(self):
+        self.conv.bprop(self.gradOutputs_cl)
+
 

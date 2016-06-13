@@ -13,30 +13,41 @@ import pycuda.gpuarray as gpuarray
 
 init = Gaussian()
 
-def test(batch_size, its, layer):
-    np.random.seed(123)
+class Test(object):
+    def __init__(self, batch_size, its, layer):
+        np.random.seed(123)
 
-    gen_backend(backend='gpu', batch_size=batch_size,
-            datatype=np.float32, device_id=0)
+        gen_backend(backend='gpu', batch_size=batch_size,
+                datatype=np.float32, device_id=0)
 
-    input_filters = layer['Ci']
-    output_filters = layer['Co']
-    image_size = layer['iW']
-    assert layer['iH'] == image_size
-    assert layer['kH'] == layer['kW'] == 3
+        input_filters = layer['Ci']
+        output_filters = layer['Co']
+        image_size = layer['iW']
+        assert layer['iH'] == image_size
+        assert layer['kH'] == layer['kW'] == 3
 
-    inputs = np.zeros((input_filters,image_size, image_size,batch_size), dtype=np.float32)
-    inputs[:] = np.random.randn(*inputs.shape)
-    inputs_cuda = gpuarray.to_gpu(inputs)
+        inputs = np.zeros((input_filters,image_size, image_size,batch_size), dtype=np.float32)
+        inputs[:] = np.random.randn(*inputs.shape)
+        inputs_cuda = gpuarray.to_gpu(inputs)
 
-    gradOutputs = np.zeros((image_size * image_size * output_filters, batch_size), dtype=np.float32)
-    gradOutputs[:] = np.random.randn(*gradOutputs.shape)
-    gradOutputs_cuda = gpuarray.to_gpu(gradOutputs)
+        gradOutputs = np.zeros((image_size * image_size * output_filters, batch_size), dtype=np.float32)
+        gradOutputs[:] = np.random.randn(*gradOutputs.shape)
+        gradOutputs_cuda = gpuarray.to_gpu(gradOutputs)
 
-    conv = Convolution((3, 3, output_filters), strides=1, padding=1, init=init)
-    conv.configure((input_filters, image_size, image_size))
-    conv.allocate()
-    
-    conv.fprop(inputs_cuda)
-    conv.bprop(gradOutputs_cuda)
+        conv = Convolution((3, 3, output_filters), strides=1, padding=1, init=init)
+        conv.configure((input_filters, image_size, image_size))
+        conv.allocate()
+
+        self.conv = conv
+        self.inputs_cuda = inputs_cuda
+        self.gradOutputs_cuda = gradOutputs_cuda
+
+    def sync(self):
+        cuda.Context.synchronize()
+
+    def fprop(self):
+        self.conv.fprop(self.inputs_cuda)
+
+    def bprop(self):
+        self.conv.bprop(self.gradOutputs_cuda)
 
