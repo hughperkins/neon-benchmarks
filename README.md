@@ -16,7 +16,6 @@ pip install -e ./
 ```
 neon_benchmarks.py
 ```
-That's it! :-)
 
 ## How to use: neon base
 
