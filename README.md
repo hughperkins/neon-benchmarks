@@ -33,8 +33,6 @@ pip install -e ./
 ```
 neon_benchmarks.py --backend neonbase
 ```
-(note that neon base needs python2.7 currently, so you'll need to create a python2.7 virtualenvironment,
-
 ## Model selection
 
 There are different network models in the [models](models) directory.  Simply use the `--model` parameter to choose one, eg:
