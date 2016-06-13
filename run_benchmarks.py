@@ -16,6 +16,7 @@ def check_outputs(batch_size, layer_def, gpu_O, I, W):
     kernel_size = layer_def['kH']
 
     random.seed(123)
+    cpuref.check_O(gpu_O=gpu_O, W=W, I=I, c=0, h=0, w=0, n=0)
     for i in range(10):  # draw 10 samples
         co = random.randint(0, output_filters - 1)
         oh = random.randint(0, image_size - 1)

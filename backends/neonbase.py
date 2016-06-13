@@ -14,40 +14,65 @@ import pycuda.gpuarray as gpuarray
 init = Gaussian()
 
 class Test(object):
-    def __init__(self, batch_size, its, layer):
+    def __init__(self, batch_size, its, layer_def, W, I, gradO):
         np.random.seed(123)
 
         gen_backend(backend='gpu', batch_size=batch_size,
                 datatype=np.float32, device_id=0)
 
-        input_filters = layer['Ci']
-        output_filters = layer['Co']
-        image_size = layer['iW']
-        assert layer['iH'] == image_size
-        assert layer['kH'] == layer['kW'] == 3
+        input_filters = layer_def['Ci']
+        output_filters = layer_def['Co']
+        image_size = layer_def['iW']
+        filter_size = layer_def['kH']
+        assert layer_def['iH'] == layer_def['iW']
+        assert layer_def['kH'] == layer_def['kW']
+        padding = (filter_size // 2)
 
-        inputs = np.zeros((input_filters,image_size, image_size,batch_size), dtype=np.float32)
-        inputs[:] = np.random.randn(*inputs.shape)
-        inputs_cuda = gpuarray.to_gpu(inputs)
+        self.I = I
+        self.W = W
+        self.gradO = gradO
 
-        gradOutputs = np.zeros((image_size * image_size * output_filters, batch_size), dtype=np.float32)
-        gradOutputs[:] = np.random.randn(*gradOutputs.shape)
-        gradOutputs_cuda = gpuarray.to_gpu(gradOutputs)
+        I_cuda = gpuarray.to_gpu(I)
+        gradO_cuda = gpuarray.to_gpu(gradO)
+        W_cuda = gpuarray.to_gpu(W)
 
-        conv = Convolution((3, 3, output_filters), strides=1, padding=1, init=init)
+        conv = Convolution((filter_size, filter_size, output_filters), strides=1, padding=padding, init=init)
         conv.configure((input_filters, image_size, image_size))
         conv.allocate()
+#        conv.allocate_deltas()
+        conv.W = W_cuda
 
         self.conv = conv
-        self.inputs_cuda = inputs_cuda
-        self.gradOutputs_cuda = gradOutputs_cuda
+        deltas = np.zeros(I.shape, dtype=np.float32)
+        deltas_cuda = gpuarray.to_gpu(deltas)
+        conv.deltas = deltas_cuda
+
+#        self.O = O
+#        self.gradW = gradW
+#        self.gradI = gradI
+
+        self.I_cuda = I_cuda
+        self.O_cuda = conv.outputs
+        self.gradO_cuda = gradO_cuda
+
+        self.gradW_cuda = conv.dW
+        self.gradI_cuda = conv.deltas
 
     def sync(self):
         cuda.Context.synchronize()
 
     def fprop(self):
-        self.conv.fprop(self.inputs_cuda)
+        self.conv.fprop(self.I_cuda)
 
     def bprop(self):
-        self.conv.bprop(self.gradOutputs_cuda)
+        res = self.conv.bprop(self.gradO_cuda)
+
+    def getO(self):
+        return self.O_cuda.get()
+
+    def getGradW(self):
+        return self.gradW_cuda.get()
+
+    def getGradI(self):
+        return self.conv.deltas.get()
 
