@@ -22,9 +22,20 @@ That's it! :-)
 ## How to use: neon base
 
 * Install neon base from https://github.com/nervanasystems/neon
-* Using the same venv you just created, ie do `source .venv/bin/activate` from the `neon` directory, do:
+* install this repo, eg:
 ```
 cd neon-benchmarks
-python run_benchmarks.py --backend neonbase
+pip install -e ./
+```
+* run:
+```
+neon_benchmarks.py --backend neonbase
+```
+
+## Model selection
+
+There are different network models in the [models](models) directory.  Simply use the `--model` parameter to choose one, eg:
+```
+neon_benchmarks.py --model simple1
 ```
 
