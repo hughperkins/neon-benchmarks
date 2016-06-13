@@ -8,10 +8,14 @@ Pluggable test backend lets tests run against both
 ## How to use: winogradcl
 
 * first, install winogradcl https://github.com/hughperkins/winogradCl-underconstruction
-* now, using the same virtualenv you just set up, simply run, from this `neon-benchmarks` repo:
+* install this repo, eg:
 ```
 cd neon-benchmarks
-python run_benchmarks.py
+pip install -e ./
+```
+* run:
+```
+neon_benchmarks.py
 ```
 That's it! :-)
 

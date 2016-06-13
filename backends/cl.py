@@ -5,9 +5,9 @@ import time
 import importlib
 import numpy as np
 from mycltensor import MyClTensor
-from neon.layers.layer import Convolution
+from winogradcl.layers.layer import Convolution
 
-from neon.backends.make_backend import make_backend
+from winogradcl.backends.make_backend import make_backend
 
 class Test(object):
     def __init__(self, batch_size, its, layer_def, W, I, gradO):
