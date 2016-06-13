@@ -7,10 +7,9 @@ Pluggable test backend lets tests run against both
 
 ## How to use: winogradcl
 
-* first, install winogradcl https://github.com/hughperkins/winogradCl-underconstruction
-* install this repo, eg:
+* install winogradcl https://github.com/hughperkins/winogradCl-underconstruction
+* install neon-benchmarks, eg:
 ```
-cd neon-benchmarks
 pip install -e ./
 ```
 * run:
@@ -22,15 +21,19 @@ That's it! :-)
 ## How to use: neon base
 
 * Install neon base from https://github.com/nervanasystems/neon
-* install this repo, eg:
+* Install neon-benchmarks.  From the `neon` directory:
 ```
-cd neon-benchmarks
+source .venv/bin/activate
+```
+* Then, from the `neon-benchmarks` directory do:
+```
 pip install -e ./
 ```
 * run:
 ```
 neon_benchmarks.py --backend neonbase
 ```
+(note that neon base needs python2.7 currently, so you'll need to create a python2.7 virtualenvironment,
 
 ## Model selection
 
