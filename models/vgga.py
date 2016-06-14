@@ -10,6 +10,9 @@ def get_net():
     for i, op in enumerate(cfg):
         if isinstance(op, int):
             layer = {'Ci': channels, 'Co': op, 'iH': imageSize, 'iW': imageSize, 'kH': 3, 'kW': 3}
+            layer['epsO'] = 1e-4
+            layer['epsGradW'] = 1e-4
+            layer['epsGradI'] = 1e-4
             net.append(layer)
             channels = op
         elif op == 'M':
@@ -21,12 +24,12 @@ def get_net():
 def get_batchsize():
     return 64
 
-def getEpsO():
-    return 1e-4
+#def getEpsO():
+#    return 1e-4
 
-def getEpsGradW():
-    return 1e-2
+#def getEpsGradW():
+#    return 1e-2
 
-def getEpsGradI():
-    return 1e-3
+#def getEpsGradI():
+#    return 1e-3
 

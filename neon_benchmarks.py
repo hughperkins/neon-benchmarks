@@ -61,7 +61,7 @@ def check_gradI(batch_size, layer_def, gpu_gradI, W, gradO, eps=1e-4):
         n = random.randint(0, batch_size - 1)
         cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=ci, h=ih, w=iw, n=n, eps=eps)
 
-def test(model, backend, batch_size, its, layer_def):
+def test(backend, batch_size, its, layer_def):
     assert layer_def['iH'] == layer_def['iW']
     assert layer_def['kH'] == layer_def['kW']
 
@@ -82,13 +82,13 @@ def test(model, backend, batch_size, its, layer_def):
     # check correctness, for a few values, (this also serves as warmup):
     backend_obj.fprop()
     O = backend_obj.getO()
-    check_outputs(batch_size, layer_def, gpu_O=O, I=I, W=W, eps=model.getEpsO())
+    check_outputs(batch_size, layer_def, gpu_O=O, I=I, W=W, eps=layer_def['epsO'])
 
     backend_obj.bprop()
     gradW = backend_obj.getGradW()
     gradI = backend_obj.getGradI()
-    check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO, eps=model.getEpsGradW())
-    check_gradI(batch_size, layer_def, gpu_gradI=gradI, W=W, gradO=gradO, eps=model.getEpsGradI())
+    check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO, eps=layer_def['epsGradW'])
+    check_gradI(batch_size, layer_def, gpu_gradI=gradI, W=W, gradO=gradO, eps=layer_def['epsGradI'])
     
     backend_obj.sync()
 
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     for i, layer_def in enumerate(model.get_net()):
         if layer_def['Ci'] >= 4:
             print('RUNNING', layer_def)
-            res = test(model, backend, batch_size, its, layer_def)
+            res = test(backend, batch_size, its, layer_def)
 #            results.append(res)
             results.append('Layer %s: fprop=%.3f bprop=%.3f' % (i, res[0], res[1]))
         else:
