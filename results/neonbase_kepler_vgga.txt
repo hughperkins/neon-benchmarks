@@ -1,0 +1,339 @@
+$ KEPLER=1 neon_benchmarks.py --model vgga --backend neonbase
+model_name vgga backend_name neonbase
+batch_size 64
+SKIPPING {'Ci': 3, 'Co': 64, 'kH': 3, 'iW': 224, 'iH': 224, 'kW': 3}
+RUNNING {'Ci': 64, 'Co': 128, 'kH': 3, 'iW': 112, 'iH': 112, 'kW': 3}
+forcing kepler
+check O c=0 h=0 w=0 n=0 cpu 25.3647 gpu 25.3647 diff=0.0000
+check O c=6 h=9 w=45 n=6 cpu -37.3390 gpu -37.3390 diff=0.0000
+check O c=115 h=4 w=60 n=21 cpu 55.1472 gpu 55.1472 diff=0.0000
+check O c=109 h=17 w=37 n=21 cpu 3.5674 gpu 3.5674 diff=0.0000
+check O c=31 h=0 w=48 n=5 cpu -6.4249 gpu -6.4249 diff=0.0000
+check O c=76 h=7 w=35 n=28 cpu 12.8731 gpu 12.8731 diff=0.0000
+check O c=115 h=10 w=15 n=50 cpu -17.5165 gpu -17.5165 diff=0.0000
+check O c=2 h=102 w=64 n=16 cpu 1.1042 gpu 1.1042 diff=0.0000
+check O c=107 h=86 w=38 n=51 cpu -28.8738 gpu -28.8738 diff=0.0000
+check O c=26 h=68 w=59 n=51 cpu 7.9560 gpu 7.9560 diff=0.0000
+check O c=40 h=44 w=86 n=32 cpu -1.6439 gpu -1.6439 diff=0.0000
+check gradW ci=0 h=0 w=0 co=0 cpu 1327.6255 gpu 1327.6270 diff=0.0014
+check gradW ci=6 h=0 w=1 co=6 cpu -889.6397 gpu -889.6366 diff=0.0031
+check gradW ci=21 h=0 w=1 co=115 cpu -382.9913 gpu -382.9933 diff=0.0019
+check gradW ci=21 h=0 w=1 co=109 cpu -455.8434 gpu -455.8441 diff=0.0007
+check gradW ci=5 h=0 w=1 co=31 cpu -131.0556 gpu -131.0559 diff=0.0003
+check gradW ci=28 h=0 w=0 co=76 cpu 655.1287 gpu 655.1288 diff=0.0002
+check gradW ci=50 h=0 w=0 co=115 cpu 616.4453 gpu 616.4448 diff=0.0005
+check gradW ci=16 h=2 w=1 co=2 cpu 684.0102 gpu 684.0114 diff=0.0012
+check gradW ci=51 h=2 w=1 co=107 cpu 477.6110 gpu 477.6112 diff=0.0003
+check gradW ci=51 h=1 w=1 co=26 cpu 333.1227 gpu 333.1225 diff=0.0002
+check gradW ci=32 h=1 w=2 co=40 cpu -1390.2491 gpu -1390.2463 diff=0.0027
+check gradI c=0 h=0 w=0 n=0 cpu 7.5373 gpu 7.5373 diff=0.0000
+check gradI c=3 h=9 w=45 n=6 cpu -15.1234 gpu -15.1234 diff=0.0000
+check gradI c=57 h=4 w=60 n=21 cpu 44.6463 gpu 44.6463 diff=0.0000
+check gradI c=54 h=17 w=37 n=21 cpu -33.2831 gpu -33.2831 diff=0.0000
+check gradI c=15 h=0 w=48 n=5 cpu -13.6009 gpu -13.6009 diff=0.0000
+check gradI c=38 h=7 w=35 n=28 cpu 17.9592 gpu 17.9592 diff=0.0000
+check gradI c=57 h=10 w=15 n=50 cpu 25.9911 gpu 25.9911 diff=0.0000
+check gradI c=1 h=102 w=64 n=16 cpu -0.1874 gpu -0.1874 diff=0.0000
+check gradI c=53 h=86 w=38 n=51 cpu -12.8811 gpu -12.8811 diff=0.0000
+check gradI c=13 h=68 w=59 n=51 cpu 4.6808 gpu 4.6808 diff=0.0000
+check gradI c=20 h=44 w=86 n=32 cpu -9.8600 gpu -9.8600 diff=0.0000
+fprop 0.032 bprop 0.157
+fprop 0.032 bprop 0.157
+fprop 0.032 bprop 0.157
+fprop 0.032 bprop 0.158
+fprop 0.032 bprop 0.158
+fprop 0.032 bprop 0.159
+fprop 0.033 bprop 0.158
+fprop 0.032 bprop 0.158
+fprop 0.032 bprop 0.158
+fprop 0.032 bprop 0.158
+avg fprop 0.032 bprop 0.158
+RUNNING {'Ci': 128, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
+forcing kepler
+check O c=0 h=0 w=0 n=0 cpu 18.7881 gpu 18.7881 diff=0.0000
+check O c=13 h=4 w=22 n=6 cpu 30.3633 gpu 30.3633 diff=0.0000
+check O c=230 h=2 w=30 n=21 cpu -17.4810 gpu -17.4810 diff=0.0000
+check O c=218 h=8 w=18 n=21 cpu 56.4904 gpu 56.4905 diff=0.0001
+check O c=62 h=0 w=24 n=5 cpu 7.8285 gpu 7.8285 diff=0.0000
+check O c=152 h=3 w=17 n=28 cpu -29.0566 gpu -29.0566 diff=0.0000
+check O c=231 h=5 w=7 n=50 cpu 29.5270 gpu 29.5270 diff=0.0000
+check O c=5 h=51 w=32 n=16 cpu -11.0782 gpu -11.0782 diff=0.0000
+check O c=214 h=43 w=19 n=51 cpu -4.8174 gpu -4.8174 diff=0.0000
+check O c=52 h=34 w=29 n=51 cpu 4.8929 gpu 4.8929 diff=0.0000
+check O c=80 h=22 w=43 n=32 cpu -11.7973 gpu -11.7973 diff=0.0000
+check gradW ci=0 h=0 w=0 co=0 cpu -272.3312 gpu -272.3313 diff=0.0001
+check gradW ci=13 h=0 w=1 co=13 cpu -412.1467 gpu -412.1466 diff=0.0001
+check gradW ci=42 h=0 w=1 co=230 cpu 272.5508 gpu 272.5509 diff=0.0001
+check gradW ci=42 h=0 w=1 co=218 cpu -499.9787 gpu -499.9790 diff=0.0004
+check gradW ci=11 h=0 w=1 co=62 cpu 376.1952 gpu 376.1954 diff=0.0001
+check gradW ci=57 h=0 w=0 co=152 cpu -1.4736 gpu -1.4737 diff=0.0002
+check gradW ci=101 h=0 w=0 co=231 cpu 289.4649 gpu 289.4651 diff=0.0002
+check gradW ci=33 h=2 w=1 co=5 cpu -411.5273 gpu -411.5276 diff=0.0002
+check gradW ci=102 h=2 w=1 co=214 cpu -49.0259 gpu -49.0254 diff=0.0004
+check gradW ci=103 h=1 w=1 co=52 cpu -1091.7698 gpu -1091.7686 diff=0.0012
+check gradW ci=65 h=1 w=2 co=80 cpu 1.5910 gpu 1.5906 diff=0.0004
+check gradI c=0 h=0 w=0 n=0 cpu -30.6010 gpu -30.6009 diff=0.0000
+check gradI c=6 h=4 w=22 n=6 cpu -90.4732 gpu -90.4732 diff=0.0000
+check gradI c=115 h=2 w=30 n=21 cpu -4.1554 gpu -4.1554 diff=0.0000
+check gradI c=109 h=8 w=18 n=21 cpu 34.7424 gpu 34.7424 diff=0.0000
+check gradI c=31 h=0 w=24 n=5 cpu 49.5687 gpu 49.5687 diff=0.0000
+check gradI c=76 h=3 w=17 n=28 cpu -0.0121 gpu -0.0121 diff=0.0000
+check gradI c=115 h=5 w=7 n=50 cpu 43.8566 gpu 43.8566 diff=0.0000
+check gradI c=2 h=51 w=32 n=16 cpu 12.2208 gpu 12.2208 diff=0.0000
+check gradI c=107 h=43 w=19 n=51 cpu -116.1501 gpu -116.1501 diff=0.0000
+check gradI c=26 h=34 w=29 n=51 cpu -36.4163 gpu -36.4163 diff=0.0000
+check gradI c=40 h=22 w=43 n=32 cpu -43.7874 gpu -43.7874 diff=0.0000
+fprop 0.031 bprop 0.104
+fprop 0.032 bprop 0.107
+fprop 0.033 bprop 0.113
+fprop 0.034 bprop 0.114
+fprop 0.035 bprop 0.110
+fprop 0.033 bprop 0.111
+fprop 0.034 bprop 0.110
+fprop 0.033 bprop 0.110
+fprop 0.034 bprop 0.111
+fprop 0.033 bprop 0.111
+avg fprop 0.033 bprop 0.110
+RUNNING {'Ci': 256, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
+forcing kepler
+check O c=0 h=0 w=0 n=0 cpu 15.1606 gpu 15.1607 diff=0.0000
+check O c=13 h=4 w=22 n=6 cpu 82.1956 gpu 82.1957 diff=0.0000
+check O c=230 h=2 w=30 n=21 cpu -29.0710 gpu -29.0711 diff=0.0000
+check O c=218 h=8 w=18 n=21 cpu -74.6516 gpu -74.6516 diff=0.0000
+check O c=62 h=0 w=24 n=5 cpu 18.8202 gpu 18.8203 diff=0.0000
+check O c=152 h=3 w=17 n=28 cpu 27.1554 gpu 27.1553 diff=0.0000
+check O c=231 h=5 w=7 n=50 cpu 51.4450 gpu 51.4451 diff=0.0000
+check O c=5 h=51 w=32 n=16 cpu -20.1383 gpu -20.1383 diff=0.0000
+check O c=214 h=43 w=19 n=51 cpu -5.4350 gpu -5.4350 diff=0.0000
+check O c=52 h=34 w=29 n=51 cpu 0.1469 gpu 0.1469 diff=0.0000
+check O c=80 h=22 w=43 n=32 cpu -31.7388 gpu -31.7388 diff=0.0000
+check gradW ci=0 h=0 w=0 co=0 cpu 707.3954 gpu 707.3953 diff=0.0001
+check gradW ci=27 h=0 w=1 co=13 cpu -616.2527 gpu -616.2529 diff=0.0003
+check gradW ci=85 h=0 w=1 co=230 cpu -179.4894 gpu -179.4893 diff=0.0001
+check gradW ci=85 h=0 w=1 co=218 cpu -8.6585 gpu -8.6584 diff=0.0001
+check gradW ci=22 h=0 w=1 co=62 cpu 299.7803 gpu 299.7799 diff=0.0004
+check gradW ci=114 h=0 w=0 co=152 cpu 267.6105 gpu 267.6109 diff=0.0004
+check gradW ci=202 h=0 w=0 co=231 cpu -595.6043 gpu -595.6046 diff=0.0002
+check gradW ci=67 h=2 w=1 co=5 cpu -49.3590 gpu -49.3593 diff=0.0003
+check gradW ci=205 h=2 w=1 co=214 cpu -76.8077 gpu -76.8077 diff=0.0000
+check gradW ci=207 h=1 w=1 co=52 cpu 629.1980 gpu 629.1983 diff=0.0003
+check gradW ci=131 h=1 w=2 co=80 cpu 726.2766 gpu 726.2773 diff=0.0007
+check gradI c=0 h=0 w=0 n=0 cpu 27.8799 gpu 27.8799 diff=0.0000
+check gradI c=13 h=4 w=22 n=6 cpu -7.9408 gpu -7.9407 diff=0.0001
+check gradI c=230 h=2 w=30 n=21 cpu -37.8573 gpu -37.8573 diff=0.0000
+check gradI c=218 h=8 w=18 n=21 cpu 0.3963 gpu 0.3962 diff=0.0001
+check gradI c=62 h=0 w=24 n=5 cpu -27.4649 gpu -27.4649 diff=0.0000
+check gradI c=152 h=3 w=17 n=28 cpu -4.4201 gpu -4.4201 diff=0.0000
+check gradI c=231 h=5 w=7 n=50 cpu -7.9548 gpu -7.9548 diff=0.0000
+check gradI c=5 h=51 w=32 n=16 cpu -6.3681 gpu -6.3682 diff=0.0000
+check gradI c=214 h=43 w=19 n=51 cpu 36.3994 gpu 36.3993 diff=0.0000
+check gradI c=52 h=34 w=29 n=51 cpu 21.3840 gpu 21.3840 diff=0.0000
+check gradI c=80 h=22 w=43 n=32 cpu -80.9929 gpu -80.9929 diff=0.0000
+fprop 0.063 bprop 0.212
+fprop 0.066 bprop 0.228
+fprop 0.067 bprop 0.221
+fprop 0.067 bprop 0.221
+fprop 0.068 bprop 0.221
+fprop 0.067 bprop 0.225
+fprop 0.068 bprop 0.225
+fprop 0.068 bprop 0.222
+fprop 0.068 bprop 0.224
+fprop 0.067 bprop 0.224
+avg fprop 0.067 bprop 0.222
+RUNNING {'Ci': 256, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
+forcing kepler
+check O c=0 h=0 w=0 n=0 cpu -3.7205 gpu -3.7205 diff=0.0000
+check O c=26 h=2 w=11 n=6 cpu 4.5413 gpu 4.5413 diff=0.0000
+check O c=461 h=1 w=15 n=21 cpu -20.6496 gpu -20.6496 diff=0.0000
+check O c=436 h=4 w=9 n=21 cpu -51.4415 gpu -51.4416 diff=0.0000
+check O c=125 h=0 w=12 n=5 cpu -0.8559 gpu -0.8559 diff=0.0000
+check O c=305 h=1 w=8 n=28 cpu 106.0898 gpu 106.0899 diff=0.0001
+check O c=463 h=2 w=3 n=50 cpu -3.3509 gpu -3.3509 diff=0.0000
+check O c=10 h=25 w=16 n=16 cpu 2.4219 gpu 2.4219 diff=0.0000
+check O c=428 h=21 w=9 n=51 cpu 34.4146 gpu 34.4146 diff=0.0000
+check O c=105 h=17 w=14 n=51 cpu -67.7919 gpu -67.7918 diff=0.0000
+check O c=161 h=11 w=21 n=32 cpu -89.2273 gpu -89.2273 diff=0.0000
+check gradW ci=0 h=0 w=0 co=0 cpu 154.4900 gpu 154.4900 diff=0.0000
+check gradW ci=27 h=0 w=1 co=26 cpu -266.4643 gpu -266.4641 diff=0.0002
+check gradW ci=85 h=0 w=1 co=461 cpu -681.2719 gpu -681.2716 diff=0.0003
+check gradW ci=85 h=0 w=1 co=436 cpu -34.6600 gpu -34.6600 diff=0.0000
+check gradW ci=22 h=0 w=1 co=125 cpu -49.8211 gpu -49.8211 diff=0.0000
+check gradW ci=114 h=0 w=0 co=305 cpu -308.4468 gpu -308.4467 diff=0.0001
+check gradW ci=202 h=0 w=0 co=463 cpu 47.9138 gpu 47.9138 diff=0.0000
+check gradW ci=67 h=2 w=1 co=10 cpu 331.2220 gpu 331.2218 diff=0.0002
+check gradW ci=205 h=2 w=1 co=428 cpu 49.8055 gpu 49.8056 diff=0.0001
+check gradW ci=207 h=1 w=1 co=105 cpu 229.9983 gpu 229.9982 diff=0.0001
+check gradW ci=131 h=1 w=2 co=161 cpu -14.4333 gpu -14.4333 diff=0.0001
+check gradI c=0 h=0 w=0 n=0 cpu 32.4580 gpu 32.4580 diff=0.0000
+check gradI c=13 h=2 w=11 n=6 cpu -31.3199 gpu -31.3199 diff=0.0000
+check gradI c=230 h=1 w=15 n=21 cpu 127.0935 gpu 127.0936 diff=0.0001
+check gradI c=218 h=4 w=9 n=21 cpu 7.3686 gpu 7.3683 diff=0.0003
+check gradI c=62 h=0 w=12 n=5 cpu -34.5131 gpu -34.5131 diff=0.0000
+check gradI c=152 h=1 w=8 n=28 cpu 85.8562 gpu 85.8561 diff=0.0001
+check gradI c=231 h=2 w=3 n=50 cpu -2.1963 gpu -2.1963 diff=0.0000
+check gradI c=5 h=25 w=16 n=16 cpu 47.3211 gpu 47.3211 diff=0.0000
+check gradI c=214 h=21 w=9 n=51 cpu -73.1349 gpu -73.1349 diff=0.0001
+check gradI c=52 h=17 w=14 n=51 cpu 93.3457 gpu 93.3457 diff=0.0000
+check gradI c=80 h=11 w=21 n=32 cpu 129.7138 gpu 129.7141 diff=0.0004
+fprop 0.034 bprop 0.108
+fprop 0.031 bprop 0.106
+fprop 0.032 bprop 0.113
+fprop 0.033 bprop 0.113
+fprop 0.034 bprop 0.113
+fprop 0.034 bprop 0.108
+fprop 0.032 bprop 0.111
+fprop 0.033 bprop 0.111
+fprop 0.033 bprop 0.111
+fprop 0.033 bprop 0.111
+avg fprop 0.033 bprop 0.111
+RUNNING {'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
+forcing kepler
+check O c=0 h=0 w=0 n=0 cpu -88.1978 gpu -88.1978 diff=0.0000
+check O c=26 h=2 w=11 n=6 cpu 17.5379 gpu 17.5379 diff=0.0000
+check O c=461 h=1 w=15 n=21 cpu 19.8298 gpu 19.8297 diff=0.0000
+check O c=436 h=4 w=9 n=21 cpu 57.3620 gpu 57.3618 diff=0.0001
+check O c=125 h=0 w=12 n=5 cpu -59.6962 gpu -59.6962 diff=0.0000
+check O c=305 h=1 w=8 n=28 cpu 53.1421 gpu 53.1421 diff=0.0000
+check O c=463 h=2 w=3 n=50 cpu -56.5593 gpu -56.5592 diff=0.0000
+check O c=10 h=25 w=16 n=16 cpu -19.0548 gpu -19.0548 diff=0.0000
+check O c=428 h=21 w=9 n=51 cpu 87.0824 gpu 87.0823 diff=0.0000
+check O c=105 h=17 w=14 n=51 cpu 25.7406 gpu 25.7406 diff=0.0000
+check O c=161 h=11 w=21 n=32 cpu -132.0924 gpu -132.0922 diff=0.0001
+check gradW ci=0 h=0 w=0 co=0 cpu 11.0830 gpu 11.0829 diff=0.0001
+check gradW ci=55 h=0 w=1 co=26 cpu -94.5142 gpu -94.5142 diff=0.0000
+check gradW ci=170 h=0 w=1 co=461 cpu -363.4668 gpu -363.4665 diff=0.0003
+check gradW ci=170 h=0 w=1 co=436 cpu -399.2081 gpu -399.2082 diff=0.0000
+check gradW ci=44 h=0 w=1 co=125 cpu -223.0351 gpu -223.0354 diff=0.0002
+check gradW ci=229 h=0 w=0 co=305 cpu -124.3680 gpu -124.3680 diff=0.0001
+check gradW ci=404 h=0 w=0 co=463 cpu 257.0404 gpu 257.0404 diff=0.0001
+check gradW ci=135 h=2 w=1 co=10 cpu 0.5522 gpu 0.5522 diff=0.0000
+check gradW ci=410 h=2 w=1 co=428 cpu 27.0883 gpu 27.0884 diff=0.0001
+check gradW ci=414 h=1 w=1 co=105 cpu 9.1343 gpu 9.1343 diff=0.0001
+check gradW ci=262 h=1 w=2 co=161 cpu 47.4108 gpu 47.4107 diff=0.0000
+check gradI c=0 h=0 w=0 n=0 cpu -67.7649 gpu -67.7650 diff=0.0001
+check gradI c=26 h=2 w=11 n=6 cpu 44.2720 gpu 44.2719 diff=0.0001
+check gradI c=461 h=1 w=15 n=21 cpu -172.3397 gpu -172.3398 diff=0.0001
+check gradI c=436 h=4 w=9 n=21 cpu -56.5620 gpu -56.5621 diff=0.0000
+check gradI c=125 h=0 w=12 n=5 cpu -31.5536 gpu -31.5536 diff=0.0000
+check gradI c=305 h=1 w=8 n=28 cpu -55.6917 gpu -55.6918 diff=0.0001
+check gradI c=463 h=2 w=3 n=50 cpu 153.5536 gpu 153.5535 diff=0.0000
+check gradI c=10 h=25 w=16 n=16 cpu -25.9620 gpu -25.9620 diff=0.0000
+check gradI c=428 h=21 w=9 n=51 cpu 46.6337 gpu 46.6337 diff=0.0000
+check gradI c=105 h=17 w=14 n=51 cpu -38.4635 gpu -38.4636 diff=0.0001
+check gradI c=161 h=11 w=21 n=32 cpu 69.4303 gpu 69.4304 diff=0.0001
+fprop 0.062 bprop 0.209
+fprop 0.065 bprop 0.231
+fprop 0.070 bprop 0.222
+fprop 0.065 bprop 0.224
+fprop 0.067 bprop 0.223
+fprop 0.067 bprop 0.220
+fprop 0.066 bprop 0.224
+fprop 0.067 bprop 0.224
+fprop 0.066 bprop 0.221
+fprop 0.066 bprop 0.223
+avg fprop 0.066 bprop 0.222
+RUNNING {'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
+forcing kepler
+check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
+check O c=26 h=1 w=5 n=6 cpu -17.7691 gpu -17.7691 diff=0.0000
+check O c=461 h=0 w=7 n=21 cpu -77.6309 gpu -77.6310 diff=0.0000
+check O c=436 h=2 w=4 n=21 cpu -42.0360 gpu -42.0361 diff=0.0000
+check O c=125 h=0 w=6 n=5 cpu 39.3125 gpu 39.3125 diff=0.0000
+check O c=305 h=0 w=4 n=28 cpu 57.5648 gpu 57.5649 diff=0.0001
+check O c=463 h=1 w=1 n=50 cpu -48.3120 gpu -48.3121 diff=0.0001
+check O c=10 h=12 w=8 n=16 cpu -21.1740 gpu -21.1740 diff=0.0001
+check O c=428 h=10 w=4 n=51 cpu -83.6339 gpu -83.6338 diff=0.0001
+check O c=105 h=8 w=7 n=51 cpu 25.8800 gpu 25.8801 diff=0.0000
+check O c=161 h=5 w=10 n=32 cpu -46.5719 gpu -46.5719 diff=0.0000
+check gradW ci=0 h=0 w=0 co=0 cpu 35.9808 gpu 35.9808 diff=0.0000
+check gradW ci=55 h=0 w=1 co=26 cpu 42.2635 gpu 42.2635 diff=0.0000
+check gradW ci=170 h=0 w=1 co=461 cpu -83.9352 gpu -83.9352 diff=0.0000
+check gradW ci=170 h=0 w=1 co=436 cpu 76.2094 gpu 76.2094 diff=0.0000
+check gradW ci=44 h=0 w=1 co=125 cpu 16.8577 gpu 16.8578 diff=0.0000
+check gradW ci=229 h=0 w=0 co=305 cpu -20.4666 gpu -20.4666 diff=0.0000
+check gradW ci=404 h=0 w=0 co=463 cpu 62.9054 gpu 62.9053 diff=0.0000
+check gradW ci=135 h=2 w=1 co=10 cpu 117.9960 gpu 117.9960 diff=0.0001
+check gradW ci=410 h=2 w=1 co=428 cpu -180.3784 gpu -180.3784 diff=0.0000
+check gradW ci=414 h=1 w=1 co=105 cpu 226.6725 gpu 226.6725 diff=0.0000
+check gradW ci=262 h=1 w=2 co=161 cpu 84.3342 gpu 84.3342 diff=0.0001
+check gradI c=0 h=0 w=0 n=0 cpu 1.3310 gpu 1.3310 diff=0.0000
+check gradI c=26 h=1 w=5 n=6 cpu 42.3474 gpu 42.3474 diff=0.0000
+check gradI c=461 h=0 w=7 n=21 cpu -65.9575 gpu -65.9574 diff=0.0000
+check gradI c=436 h=2 w=4 n=21 cpu -114.0000 gpu -114.0000 diff=0.0000
+check gradI c=125 h=0 w=6 n=5 cpu 27.4749 gpu 27.4749 diff=0.0000
+check gradI c=305 h=0 w=4 n=28 cpu 6.9012 gpu 6.9012 diff=0.0000
+check gradI c=463 h=1 w=1 n=50 cpu 46.3004 gpu 46.3004 diff=0.0000
+check gradI c=10 h=12 w=8 n=16 cpu 98.0833 gpu 98.0833 diff=0.0001
+check gradI c=428 h=10 w=4 n=51 cpu 17.6078 gpu 17.6078 diff=0.0000
+check gradI c=105 h=8 w=7 n=51 cpu 10.3952 gpu 10.3952 diff=0.0000
+check gradI c=161 h=5 w=10 n=32 cpu 99.0184 gpu 99.0185 diff=0.0001
+fprop 0.015 bprop 0.051
+fprop 0.015 bprop 0.051
+fprop 0.015 bprop 0.052
+fprop 0.015 bprop 0.052
+fprop 0.016 bprop 0.052
+fprop 0.016 bprop 0.054
+fprop 0.016 bprop 0.055
+fprop 0.016 bprop 0.055
+fprop 0.016 bprop 0.055
+fprop 0.016 bprop 0.054
+avg fprop 0.016 bprop 0.053
+RUNNING {'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
+forcing kepler
+check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
+check O c=26 h=1 w=5 n=6 cpu -17.7691 gpu -17.7691 diff=0.0000
+check O c=461 h=0 w=7 n=21 cpu -77.6309 gpu -77.6310 diff=0.0000
+check O c=436 h=2 w=4 n=21 cpu -42.0360 gpu -42.0361 diff=0.0000
+check O c=125 h=0 w=6 n=5 cpu 39.3125 gpu 39.3125 diff=0.0000
+check O c=305 h=0 w=4 n=28 cpu 57.5648 gpu 57.5649 diff=0.0001
+check O c=463 h=1 w=1 n=50 cpu -48.3120 gpu -48.3121 diff=0.0001
+check O c=10 h=12 w=8 n=16 cpu -21.1740 gpu -21.1740 diff=0.0001
+check O c=428 h=10 w=4 n=51 cpu -83.6339 gpu -83.6338 diff=0.0001
+check O c=105 h=8 w=7 n=51 cpu 25.8800 gpu 25.8801 diff=0.0000
+check O c=161 h=5 w=10 n=32 cpu -46.5719 gpu -46.5719 diff=0.0000
+check gradW ci=0 h=0 w=0 co=0 cpu 35.9808 gpu 35.9808 diff=0.0000
+check gradW ci=55 h=0 w=1 co=26 cpu 42.2635 gpu 42.2635 diff=0.0000
+check gradW ci=170 h=0 w=1 co=461 cpu -83.9352 gpu -83.9352 diff=0.0000
+check gradW ci=170 h=0 w=1 co=436 cpu 76.2094 gpu 76.2094 diff=0.0000
+check gradW ci=44 h=0 w=1 co=125 cpu 16.8577 gpu 16.8577 diff=0.0000
+check gradW ci=229 h=0 w=0 co=305 cpu -20.4666 gpu -20.4666 diff=0.0000
+check gradW ci=404 h=0 w=0 co=463 cpu 62.9054 gpu 62.9053 diff=0.0000
+check gradW ci=135 h=2 w=1 co=10 cpu 117.9960 gpu 117.9960 diff=0.0000
+check gradW ci=410 h=2 w=1 co=428 cpu -180.3784 gpu -180.3784 diff=0.0000
+check gradW ci=414 h=1 w=1 co=105 cpu 226.6725 gpu 226.6725 diff=0.0000
+check gradW ci=262 h=1 w=2 co=161 cpu 84.3342 gpu 84.3342 diff=0.0001
+check gradI c=0 h=0 w=0 n=0 cpu 1.3310 gpu 1.3310 diff=0.0000
+check gradI c=26 h=1 w=5 n=6 cpu 42.3474 gpu 42.3474 diff=0.0000
+check gradI c=461 h=0 w=7 n=21 cpu -65.9575 gpu -65.9574 diff=0.0000
+check gradI c=436 h=2 w=4 n=21 cpu -114.0000 gpu -114.0000 diff=0.0000
+check gradI c=125 h=0 w=6 n=5 cpu 27.4749 gpu 27.4749 diff=0.0000
+check gradI c=305 h=0 w=4 n=28 cpu 6.9012 gpu 6.9012 diff=0.0000
+check gradI c=463 h=1 w=1 n=50 cpu 46.3004 gpu 46.3004 diff=0.0000
+check gradI c=10 h=12 w=8 n=16 cpu 98.0833 gpu 98.0833 diff=0.0001
+check gradI c=428 h=10 w=4 n=51 cpu 17.6078 gpu 17.6078 diff=0.0000
+check gradI c=105 h=8 w=7 n=51 cpu 10.3952 gpu 10.3952 diff=0.0000
+check gradI c=161 h=5 w=10 n=32 cpu 99.0184 gpu 99.0185 diff=0.0001
+fprop 0.015 bprop 0.051
+fprop 0.015 bprop 0.051
+fprop 0.015 bprop 0.051
+fprop 0.015 bprop 0.052
+fprop 0.016 bprop 0.053
+fprop 0.017 bprop 0.055
+fprop 0.016 bprop 0.056
+fprop 0.016 bprop 0.055
+fprop 0.017 bprop 0.054
+fprop 0.016 bprop 0.054
+avg fprop 0.016 bprop 0.053
+
+Results
+-------
+Layer 0: SKIPPING
+Layer 1: fprop=0.032 bprop=0.158 eps_O=9e-06 eps_gradW=1e-03 eps_gradI=2e-05
+Layer 2: fprop=0.033 bprop=0.110 eps_O=2e-05 eps_gradW=3e-04 eps_gradI=2e-05
+Layer 3: fprop=0.067 bprop=0.222 eps_O=2e-05 eps_gradW=3e-04 eps_gradI=3e-05
+Layer 4: fprop=0.033 bprop=0.111 eps_O=3e-05 eps_gradW=1e-04 eps_gradI=9e-05
+Layer 5: fprop=0.066 bprop=0.222 eps_O=4e-05 eps_gradW=9e-05 eps_gradI=5e-05
+Layer 6: fprop=0.016 bprop=0.053 eps_O=4e-05 eps_gradW=2e-05 eps_gradI=3e-05
+Layer 7: fprop=0.016 bprop=0.053 eps_O=4e-05 eps_gradW=2e-05 eps_gradI=3e-05
+
+

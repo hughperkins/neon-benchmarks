@@ -1,9 +1,9 @@
-neon_benchmarks.py --model vgga
+$ neon_benchmarks.py --model vgga --backend winogradcl
 model_name vgga backend_name winogradcl
 batch_size 64
-SKIPPING {'kH': 3, 'epsO': 0.0001, 'Ci': 3, 'iW': 224, 'epsGradW': 0.0001, 'iH': 224, 'epsGradI': 0.0001, 'kW': 3, 'Co': 64}
-RUNNING {'kH': 3, 'epsO': 0.0001, 'Ci': 64, 'iW': 112, 'epsGradW': 0.01, 'iH': 112, 'epsGradI': 0.0001, 'kW': 3, 'Co': 128}
-cl_context <pyopencl.Context at 0x2b67410 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2a926c0>>
+SKIPPING {'kW': 3, 'Ci': 3, 'iW': 224, 'Co': 64, 'kH': 3, 'iH': 224}
+RUNNING {'kW': 3, 'Ci': 64, 'iW': 112, 'Co': 128, 'kH': 3, 'iH': 112}
+cl_context <pyopencl.Context at 0x283f730 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 25.3647 gpu 25.3647 diff=0.0000
 check O c=13 h=34 w=11 n=52 cpu -15.5126 gpu -15.5126 diff=0.0000
 check O c=68 h=13 w=107 n=4 cpu -18.6179 gpu -18.6179 diff=0.0000
@@ -15,17 +15,17 @@ check O c=22 h=76 w=48 n=8 cpu -26.0121 gpu -26.0121 diff=0.0000
 check O c=1 h=40 w=93 n=57 cpu 22.9055 gpu 22.9055 diff=0.0000
 check O c=26 h=5 w=11 n=18 cpu -15.7442 gpu -15.7442 diff=0.0000
 check O c=32 h=101 w=2 n=37 cpu 4.4224 gpu 4.4224 diff=0.0000
-check gradW ci=0 h=0 w=0 co=0 cpu 1327.6255 gpu 1327.6268 diff=0.0013
-check gradW ci=52 h=1 w=0 co=13 cpu 277.2820 gpu 277.2820 diff=0.0000
-check gradW ci=48 h=0 w=0 co=68 cpu 395.9725 gpu 395.9727 diff=0.0001
-check gradW ci=20 h=1 w=0 co=85 cpu -576.2384 gpu -576.2361 diff=0.0023
-check gradW ci=42 h=1 w=2 co=34 cpu 703.5289 gpu 703.5294 diff=0.0004
-check gradW ci=55 h=0 w=0 co=62 cpu 152.9779 gpu 152.9783 diff=0.0004
-check gradW ci=8 h=2 w=1 co=22 cpu -540.9011 gpu -540.9030 diff=0.0019
-check gradW ci=57 h=1 w=2 co=1 cpu 173.6935 gpu 173.6943 diff=0.0008
-check gradW ci=18 h=0 w=0 co=26 cpu -160.9517 gpu -160.9518 diff=0.0000
-check gradW ci=55 h=0 w=1 co=32 cpu -654.9802 gpu -654.9777 diff=0.0024
-check gradW ci=4 h=1 w=1 co=122 cpu 364.7000 gpu 364.7000 diff=0.0000
+check gradW ci=0 h=0 w=0 co=0 cpu 1327.6255 gpu 1327.6272 diff=0.0017
+check gradW ci=52 h=1 w=0 co=13 cpu 277.2820 gpu 277.2826 diff=0.0006
+check gradW ci=48 h=0 w=0 co=68 cpu 395.9725 gpu 395.9727 diff=0.0002
+check gradW ci=20 h=1 w=0 co=85 cpu -576.2384 gpu -576.2372 diff=0.0012
+check gradW ci=42 h=1 w=2 co=34 cpu 703.5289 gpu 703.5299 diff=0.0010
+check gradW ci=55 h=0 w=0 co=62 cpu 152.9779 gpu 152.9774 diff=0.0005
+check gradW ci=8 h=2 w=1 co=22 cpu -540.9011 gpu -540.9011 diff=0.0000
+check gradW ci=57 h=1 w=2 co=1 cpu 173.6935 gpu 173.6937 diff=0.0002
+check gradW ci=18 h=0 w=0 co=26 cpu -160.9517 gpu -160.9522 diff=0.0004
+check gradW ci=55 h=0 w=1 co=32 cpu -654.9802 gpu -654.9776 diff=0.0026
+check gradW ci=4 h=1 w=1 co=122 cpu 364.7000 gpu 364.7009 diff=0.0009
 check gradI c=0 h=0 w=0 n=0 cpu 7.5373 gpu 7.5373 diff=0.0000
 check gradI c=6 h=34 w=11 n=52 cpu -2.0100 gpu -2.0100 diff=0.0000
 check gradI c=34 h=13 w=107 n=4 cpu 1.0318 gpu 1.0317 diff=0.0000
@@ -37,19 +37,19 @@ check gradI c=11 h=76 w=48 n=8 cpu 47.8546 gpu 47.8545 diff=0.0000
 check gradI c=0 h=40 w=93 n=57 cpu 30.6185 gpu 30.6184 diff=0.0000
 check gradI c=13 h=5 w=11 n=18 cpu 9.4226 gpu 9.4226 diff=0.0000
 check gradI c=16 h=101 w=2 n=37 cpu -23.1485 gpu -23.1485 diff=0.0000
-fprop 0.040 bprop 0.175
-fprop 0.039 bprop 0.175
-fprop 0.039 bprop 0.175
-fprop 0.039 bprop 0.175
-fprop 0.039 bprop 0.175
-fprop 0.039 bprop 0.175
-fprop 0.039 bprop 0.175
-fprop 0.039 bprop 0.175
-fprop 0.039 bprop 0.175
-fprop 0.039 bprop 0.175
-avg fprop 0.039 bprop 0.175
-RUNNING {'kH': 3, 'epsO': 0.0001, 'Ci': 128, 'iW': 56, 'epsGradW': 0.001, 'iH': 56, 'epsGradI': 0.0001, 'kW': 3, 'Co': 256}
-cl_context <pyopencl.Context at 0x35d5b80 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2a926c0>>
+fprop 0.040 bprop 0.174
+fprop 0.039 bprop 0.173
+fprop 0.039 bprop 0.173
+fprop 0.039 bprop 0.173
+fprop 0.039 bprop 0.173
+fprop 0.039 bprop 0.173
+fprop 0.039 bprop 0.173
+fprop 0.038 bprop 0.173
+fprop 0.038 bprop 0.173
+fprop 0.039 bprop 0.173
+avg fprop 0.039 bprop 0.173
+RUNNING {'kW': 3, 'Ci': 128, 'iW': 56, 'Co': 256, 'kH': 3, 'iH': 56}
+cl_context <pyopencl.Context at 0x32add90 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 18.7881 gpu 18.7881 diff=0.0000
 check O c=26 h=17 w=5 n=52 cpu -10.5439 gpu -10.5439 diff=0.0000
 check O c=136 h=6 w=53 n=4 cpu -9.9940 gpu -9.9940 diff=0.0000
@@ -61,17 +61,17 @@ check O c=44 h=38 w=24 n=8 cpu -8.4415 gpu -8.4415 diff=0.0000
 check O c=3 h=20 w=46 n=57 cpu -6.7188 gpu -6.7188 diff=0.0000
 check O c=52 h=2 w=5 n=18 cpu -20.1485 gpu -20.1485 diff=0.0001
 check O c=64 h=50 w=1 n=37 cpu 10.5924 gpu 10.5924 diff=0.0000
-check gradW ci=0 h=0 w=0 co=0 cpu -272.3312 gpu -272.3316 diff=0.0004
-check gradW ci=104 h=1 w=0 co=26 cpu 788.8453 gpu 788.8461 diff=0.0008
+check gradW ci=0 h=0 w=0 co=0 cpu -272.3312 gpu -272.3315 diff=0.0003
+check gradW ci=104 h=1 w=0 co=26 cpu 788.8453 gpu 788.8466 diff=0.0012
 check gradW ci=97 h=0 w=0 co=136 cpu 296.7242 gpu 296.7238 diff=0.0004
-check gradW ci=40 h=1 w=0 co=170 cpu -138.9123 gpu -138.9122 diff=0.0000
-check gradW ci=85 h=1 w=2 co=69 cpu -77.8802 gpu -77.8804 diff=0.0002
-check gradW ci=111 h=0 w=0 co=125 cpu -385.9954 gpu -385.9951 diff=0.0003
-check gradW ci=17 h=2 w=1 co=44 cpu -266.8138 gpu -266.8143 diff=0.0005
-check gradW ci=114 h=1 w=2 co=3 cpu -706.4653 gpu -706.4657 diff=0.0004
-check gradW ci=36 h=0 w=0 co=52 cpu 870.1311 gpu 870.1310 diff=0.0001
-check gradW ci=110 h=0 w=1 co=64 cpu -116.5376 gpu -116.5376 diff=0.0000
-check gradW ci=9 h=1 w=1 co=244 cpu -117.7100 gpu -117.7098 diff=0.0002
+check gradW ci=40 h=1 w=0 co=170 cpu -138.9123 gpu -138.9123 diff=0.0001
+check gradW ci=85 h=1 w=2 co=69 cpu -77.8802 gpu -77.8803 diff=0.0001
+check gradW ci=111 h=0 w=0 co=125 cpu -385.9954 gpu -385.9952 diff=0.0002
+check gradW ci=17 h=2 w=1 co=44 cpu -266.8138 gpu -266.8145 diff=0.0007
+check gradW ci=114 h=1 w=2 co=3 cpu -706.4653 gpu -706.4652 diff=0.0001
+check gradW ci=36 h=0 w=0 co=52 cpu 870.1311 gpu 870.1319 diff=0.0008
+check gradW ci=110 h=0 w=1 co=64 cpu -116.5376 gpu -116.5378 diff=0.0001
+check gradW ci=9 h=1 w=1 co=244 cpu -117.7100 gpu -117.7099 diff=0.0001
 check gradI c=0 h=0 w=0 n=0 cpu -30.6010 gpu -30.6009 diff=0.0000
 check gradI c=13 h=17 w=5 n=52 cpu 53.7656 gpu 53.7656 diff=0.0000
 check gradI c=68 h=6 w=53 n=4 cpu -6.5725 gpu -6.5725 diff=0.0000
@@ -83,19 +83,19 @@ check gradI c=22 h=38 w=24 n=8 cpu -19.1570 gpu -19.1570 diff=0.0000
 check gradI c=1 h=20 w=46 n=57 cpu -58.5602 gpu -58.5602 diff=0.0000
 check gradI c=26 h=2 w=5 n=18 cpu 74.5401 gpu 74.5402 diff=0.0000
 check gradI c=32 h=50 w=1 n=37 cpu -24.8032 gpu -24.8032 diff=0.0000
-fprop 0.039 bprop 0.123
+fprop 0.038 bprop 0.122
 fprop 0.038 bprop 0.123
-fprop 0.038 bprop 0.124
+fprop 0.038 bprop 0.125
+fprop 0.039 bprop 0.125
+fprop 0.039 bprop 0.126
+fprop 0.039 bprop 0.124
+fprop 0.038 bprop 0.123
+fprop 0.039 bprop 0.124
 fprop 0.039 bprop 0.124
 fprop 0.039 bprop 0.126
-fprop 0.044 bprop 0.133
-fprop 0.047 bprop 0.133
-fprop 0.038 bprop 0.123
-fprop 0.039 bprop 0.124
-fprop 0.041 bprop 0.132
-avg fprop 0.040 bprop 0.126
-RUNNING {'kH': 3, 'epsO': 0.0001, 'Ci': 256, 'iW': 56, 'epsGradW': 0.001, 'iH': 56, 'epsGradI': 0.001, 'kW': 3, 'Co': 256}
-cl_context <pyopencl.Context at 0x3bb27f0 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2a926c0>>
+avg fprop 0.039 bprop 0.124
+RUNNING {'kW': 3, 'Ci': 256, 'iW': 56, 'Co': 256, 'kH': 3, 'iH': 56}
+cl_context <pyopencl.Context at 0x38913e0 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 15.1606 gpu 15.1607 diff=0.0000
 check O c=26 h=17 w=5 n=52 cpu -21.4197 gpu -21.4198 diff=0.0001
 check O c=136 h=6 w=53 n=4 cpu 27.4876 gpu 27.4877 diff=0.0001
@@ -107,17 +107,17 @@ check O c=44 h=38 w=24 n=8 cpu 21.8943 gpu 21.8943 diff=0.0000
 check O c=3 h=20 w=46 n=57 cpu -6.7977 gpu -6.7977 diff=0.0000
 check O c=52 h=2 w=5 n=18 cpu -50.0717 gpu -50.0718 diff=0.0001
 check O c=64 h=50 w=1 n=37 cpu 82.5048 gpu 82.5048 diff=0.0000
-check gradW ci=0 h=0 w=0 co=0 cpu 707.3954 gpu 707.3950 diff=0.0003
-check gradW ci=208 h=1 w=0 co=26 cpu 638.0191 gpu 638.0195 diff=0.0005
-check gradW ci=194 h=0 w=0 co=136 cpu 468.1532 gpu 468.1533 diff=0.0001
-check gradW ci=81 h=1 w=0 co=170 cpu -58.9305 gpu -58.9306 diff=0.0001
-check gradW ci=170 h=1 w=2 co=69 cpu -462.6560 gpu -462.6559 diff=0.0001
-check gradW ci=223 h=0 w=0 co=125 cpu 624.5435 gpu 624.5441 diff=0.0005
-check gradW ci=35 h=2 w=1 co=44 cpu 130.9520 gpu 130.9520 diff=0.0000
-check gradW ci=229 h=1 w=2 co=3 cpu 107.9655 gpu 107.9658 diff=0.0003
-check gradW ci=72 h=0 w=0 co=52 cpu 224.7705 gpu 224.7704 diff=0.0001
+check gradW ci=0 h=0 w=0 co=0 cpu 707.3954 gpu 707.3954 diff=0.0000
+check gradW ci=208 h=1 w=0 co=26 cpu 638.0191 gpu 638.0199 diff=0.0008
+check gradW ci=194 h=0 w=0 co=136 cpu 468.1532 gpu 468.1532 diff=0.0000
+check gradW ci=81 h=1 w=0 co=170 cpu -58.9305 gpu -58.9306 diff=0.0002
+check gradW ci=170 h=1 w=2 co=69 cpu -462.6560 gpu -462.6558 diff=0.0003
+check gradW ci=223 h=0 w=0 co=125 cpu 624.5435 gpu 624.5436 diff=0.0000
+check gradW ci=35 h=2 w=1 co=44 cpu 130.9520 gpu 130.9520 diff=0.0001
+check gradW ci=229 h=1 w=2 co=3 cpu 107.9655 gpu 107.9655 diff=0.0001
+check gradW ci=72 h=0 w=0 co=52 cpu 224.7705 gpu 224.7705 diff=0.0000
 check gradW ci=220 h=0 w=1 co=64 cpu 193.0775 gpu 193.0771 diff=0.0004
-check gradW ci=18 h=1 w=1 co=244 cpu -829.7195 gpu -829.7202 diff=0.0006
+check gradW ci=18 h=1 w=1 co=244 cpu -829.7195 gpu -829.7202 diff=0.0007
 check gradI c=0 h=0 w=0 n=0 cpu 27.8799 gpu 27.8799 diff=0.0000
 check gradI c=26 h=17 w=5 n=52 cpu -17.2225 gpu -17.2226 diff=0.0000
 check gradI c=136 h=6 w=53 n=4 cpu 59.4393 gpu 59.4392 diff=0.0001
@@ -129,19 +129,19 @@ check gradI c=44 h=38 w=24 n=8 cpu -49.2386 gpu -49.2387 diff=0.0001
 check gradI c=3 h=20 w=46 n=57 cpu 36.5494 gpu 36.5494 diff=0.0000
 check gradI c=52 h=2 w=5 n=18 cpu -9.9344 gpu -9.9344 diff=0.0000
 check gradI c=64 h=50 w=1 n=37 cpu -34.8515 gpu -34.8516 diff=0.0000
-fprop 0.072 bprop 0.232
-fprop 0.072 bprop 0.242
-fprop 0.075 bprop 0.236
-fprop 0.074 bprop 0.256
-fprop 0.075 bprop 0.243
-fprop 0.075 bprop 0.239
-fprop 0.072 bprop 0.239
-fprop 0.074 bprop 0.237
-fprop 0.072 bprop 0.235
+fprop 0.071 bprop 0.230
+fprop 0.072 bprop 0.243
+fprop 0.075 bprop 0.234
+fprop 0.072 bprop 0.237
+fprop 0.073 bprop 0.237
+fprop 0.073 bprop 0.235
+fprop 0.072 bprop 0.238
 fprop 0.073 bprop 0.238
-avg fprop 0.073 bprop 0.240
-RUNNING {'kH': 3, 'epsO': 0.0001, 'Ci': 256, 'iW': 28, 'epsGradW': 0.001, 'iH': 28, 'epsGradI': 0.0001, 'kW': 3, 'Co': 512}
-cl_context <pyopencl.Context at 0x4662a60 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2a926c0>>
+fprop 0.074 bprop 0.240
+fprop 0.074 bprop 0.238
+avg fprop 0.073 bprop 0.237
+RUNNING {'kW': 3, 'Ci': 256, 'iW': 28, 'Co': 512, 'kH': 3, 'iH': 28}
+cl_context <pyopencl.Context at 0x38913e0 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu -3.7205 gpu -3.7205 diff=0.0000
 check O c=53 h=8 w=2 n=52 cpu -3.3635 gpu -3.3635 diff=0.0000
 check O c=272 h=3 w=26 n=4 cpu -15.2887 gpu -15.2887 diff=0.0000
@@ -153,17 +153,17 @@ check O c=89 h=19 w=12 n=8 cpu -18.4501 gpu -18.4501 diff=0.0000
 check O c=6 h=10 w=23 n=57 cpu -30.7561 gpu -30.7560 diff=0.0000
 check O c=104 h=1 w=2 n=18 cpu 44.4152 gpu 44.4153 diff=0.0000
 check O c=129 h=25 w=0 n=37 cpu 39.8363 gpu 39.8363 diff=0.0000
-check gradW ci=0 h=0 w=0 co=0 cpu 154.4900 gpu 154.4900 diff=0.0000
+check gradW ci=0 h=0 w=0 co=0 cpu 154.4900 gpu 154.4902 diff=0.0002
 check gradW ci=208 h=1 w=0 co=53 cpu 313.5807 gpu 313.5806 diff=0.0001
-check gradW ci=194 h=0 w=0 co=272 cpu 57.7098 gpu 57.7097 diff=0.0001
+check gradW ci=194 h=0 w=0 co=272 cpu 57.7098 gpu 57.7098 diff=0.0000
 check gradW ci=81 h=1 w=0 co=340 cpu -73.3697 gpu -73.3697 diff=0.0000
-check gradW ci=170 h=1 w=2 co=138 cpu -254.7061 gpu -254.7062 diff=0.0001
-check gradW ci=223 h=0 w=0 co=251 cpu 25.0982 gpu 25.0983 diff=0.0001
-check gradW ci=35 h=2 w=1 co=89 cpu -75.9252 gpu -75.9252 diff=0.0001
+check gradW ci=170 h=1 w=2 co=138 cpu -254.7061 gpu -254.7061 diff=0.0000
+check gradW ci=223 h=0 w=0 co=251 cpu 25.0982 gpu 25.0983 diff=0.0000
+check gradW ci=35 h=2 w=1 co=89 cpu -75.9252 gpu -75.9252 diff=0.0000
 check gradW ci=229 h=1 w=2 co=6 cpu 455.9182 gpu 455.9182 diff=0.0000
 check gradW ci=72 h=0 w=0 co=104 cpu 42.5585 gpu 42.5584 diff=0.0001
-check gradW ci=220 h=0 w=1 co=129 cpu -167.6805 gpu -167.6804 diff=0.0001
-check gradW ci=18 h=1 w=1 co=488 cpu 177.7884 gpu 177.7883 diff=0.0001
+check gradW ci=220 h=0 w=1 co=129 cpu -167.6805 gpu -167.6805 diff=0.0000
+check gradW ci=18 h=1 w=1 co=488 cpu 177.7884 gpu 177.7884 diff=0.0000
 check gradI c=0 h=0 w=0 n=0 cpu 32.4580 gpu 32.4580 diff=0.0000
 check gradI c=26 h=8 w=2 n=52 cpu 88.7916 gpu 88.7916 diff=0.0000
 check gradI c=136 h=3 w=26 n=4 cpu -16.1315 gpu -16.1315 diff=0.0000
@@ -175,19 +175,19 @@ check gradI c=44 h=19 w=12 n=8 cpu 3.8476 gpu 3.8476 diff=0.0000
 check gradI c=3 h=10 w=23 n=57 cpu -124.5502 gpu -124.5502 diff=0.0000
 check gradI c=52 h=1 w=2 n=18 cpu -10.7049 gpu -10.7048 diff=0.0000
 check gradI c=64 h=25 w=0 n=37 cpu -27.0979 gpu -27.0978 diff=0.0000
-fprop 0.038 bprop 0.123
+fprop 0.039 bprop 0.123
+fprop 0.037 bprop 0.123
+fprop 0.038 bprop 0.126
+fprop 0.038 bprop 0.126
 fprop 0.038 bprop 0.124
-fprop 0.038 bprop 0.136
-fprop 0.039 bprop 0.124
+fprop 0.038 bprop 0.124
+fprop 0.038 bprop 0.124
 fprop 0.038 bprop 0.124
 fprop 0.038 bprop 0.125
 fprop 0.038 bprop 0.125
-fprop 0.039 bprop 0.124
-fprop 0.038 bprop 0.125
-fprop 0.038 bprop 0.124
 avg fprop 0.038 bprop 0.125
-RUNNING {'kH': 3, 'epsO': 0.001, 'Ci': 512, 'iW': 28, 'epsGradW': 0.001, 'iH': 28, 'epsGradI': 0.001, 'kW': 3, 'Co': 512}
-cl_context <pyopencl.Context at 0x348ce50 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2a926c0>>
+RUNNING {'kW': 3, 'Ci': 512, 'iW': 28, 'Co': 512, 'kH': 3, 'iH': 28}
+cl_context <pyopencl.Context at 0x30dfe60 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu -88.1978 gpu -88.1978 diff=0.0000
 check O c=53 h=8 w=2 n=52 cpu -17.6191 gpu -17.6191 diff=0.0000
 check O c=272 h=3 w=26 n=4 cpu -43.2555 gpu -43.2554 diff=0.0001
@@ -200,16 +200,16 @@ check O c=6 h=10 w=23 n=57 cpu -91.2246 gpu -91.2247 diff=0.0001
 check O c=104 h=1 w=2 n=18 cpu -23.3935 gpu -23.3935 diff=0.0000
 check O c=129 h=25 w=0 n=37 cpu -110.7141 gpu -110.7141 diff=0.0000
 check gradW ci=0 h=0 w=0 co=0 cpu 11.0830 gpu 11.0829 diff=0.0001
-check gradW ci=417 h=1 w=0 co=53 cpu 318.1989 gpu 318.1991 diff=0.0001
-check gradW ci=388 h=0 w=0 co=272 cpu -184.6180 gpu -184.6181 diff=0.0001
-check gradW ci=163 h=1 w=0 co=340 cpu -183.6309 gpu -183.6309 diff=0.0000
+check gradW ci=417 h=1 w=0 co=53 cpu 318.1989 gpu 318.1990 diff=0.0001
+check gradW ci=388 h=0 w=0 co=272 cpu -184.6180 gpu -184.6180 diff=0.0001
+check gradW ci=163 h=1 w=0 co=340 cpu -183.6309 gpu -183.6308 diff=0.0000
 check gradW ci=341 h=1 w=2 co=138 cpu 208.0498 gpu 208.0499 diff=0.0001
-check gradW ci=446 h=0 w=0 co=251 cpu -201.0934 gpu -201.0934 diff=0.0000
+check gradW ci=446 h=0 w=0 co=251 cpu -201.0934 gpu -201.0933 diff=0.0000
 check gradW ci=71 h=2 w=1 co=89 cpu -71.8570 gpu -71.8569 diff=0.0001
-check gradW ci=459 h=1 w=2 co=6 cpu 267.4778 gpu 267.4778 diff=0.0000
-check gradW ci=145 h=0 w=0 co=104 cpu -344.2728 gpu -344.2728 diff=0.0000
-check gradW ci=440 h=0 w=1 co=129 cpu 71.2348 gpu 71.2348 diff=0.0000
-check gradW ci=37 h=1 w=1 co=488 cpu -513.4216 gpu -513.4213 diff=0.0003
+check gradW ci=459 h=1 w=2 co=6 cpu 267.4778 gpu 267.4780 diff=0.0001
+check gradW ci=145 h=0 w=0 co=104 cpu -344.2728 gpu -344.2726 diff=0.0002
+check gradW ci=440 h=0 w=1 co=129 cpu 71.2348 gpu 71.2349 diff=0.0000
+check gradW ci=37 h=1 w=1 co=488 cpu -513.4216 gpu -513.4211 diff=0.0004
 check gradI c=0 h=0 w=0 n=0 cpu -67.7649 gpu -67.7650 diff=0.0001
 check gradI c=53 h=8 w=2 n=52 cpu 4.1413 gpu 4.1413 diff=0.0000
 check gradI c=272 h=3 w=26 n=4 cpu 93.2024 gpu 93.2024 diff=0.0000
@@ -221,19 +221,19 @@ check gradI c=89 h=19 w=12 n=8 cpu 62.8000 gpu 62.8001 diff=0.0000
 check gradI c=6 h=10 w=23 n=57 cpu -72.3766 gpu -72.3765 diff=0.0001
 check gradI c=104 h=1 w=2 n=18 cpu 31.4499 gpu 31.4499 diff=0.0000
 check gradI c=129 h=25 w=0 n=37 cpu 26.7833 gpu 26.7833 diff=0.0000
-fprop 0.071 bprop 0.232
-fprop 0.070 bprop 0.240
-fprop 0.073 bprop 0.241
-fprop 0.072 bprop 0.237
-fprop 0.071 bprop 0.237
-fprop 0.072 bprop 0.239
+fprop 0.070 bprop 0.231
+fprop 0.071 bprop 0.239
 fprop 0.073 bprop 0.238
-fprop 0.073 bprop 0.240
-fprop 0.073 bprop 0.240
+fprop 0.072 bprop 0.237
+fprop 0.071 bprop 0.239
 fprop 0.072 bprop 0.239
-avg fprop 0.072 bprop 0.238
-RUNNING {'kH': 3, 'epsO': 0.001, 'Ci': 512, 'iW': 14, 'epsGradW': 0.001, 'iH': 14, 'epsGradI': 0.001, 'kW': 3, 'Co': 512}
-cl_context <pyopencl.Context at 0x38a1200 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2a926c0>>
+fprop 0.072 bprop 0.242
+fprop 0.081 bprop 0.244
+fprop 0.071 bprop 0.238
+fprop 0.073 bprop 0.238
+avg fprop 0.073 bprop 0.238
+RUNNING {'kW': 3, 'Ci': 512, 'iW': 14, 'Co': 512, 'kH': 3, 'iH': 14}
+cl_context <pyopencl.Context at 0x34fca90 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
 check O c=53 h=4 w=1 n=52 cpu -41.5060 gpu -41.5060 diff=0.0000
 check O c=272 h=1 w=13 n=4 cpu -61.3416 gpu -61.3416 diff=0.0000
@@ -247,14 +247,14 @@ check O c=104 h=0 w=1 n=18 cpu -71.3546 gpu -71.3545 diff=0.0000
 check O c=129 h=12 w=0 n=37 cpu -74.2310 gpu -74.2311 diff=0.0001
 check gradW ci=0 h=0 w=0 co=0 cpu 35.9808 gpu 35.9808 diff=0.0000
 check gradW ci=417 h=1 w=0 co=53 cpu -20.9868 gpu -20.9869 diff=0.0000
-check gradW ci=388 h=0 w=0 co=272 cpu -129.7759 gpu -129.7759 diff=0.0000
+check gradW ci=388 h=0 w=0 co=272 cpu -129.7759 gpu -129.7759 diff=0.0001
 check gradW ci=163 h=1 w=0 co=340 cpu 41.4680 gpu 41.4680 diff=0.0000
-check gradW ci=341 h=1 w=2 co=138 cpu 175.0672 gpu 175.0671 diff=0.0000
+check gradW ci=341 h=1 w=2 co=138 cpu 175.0672 gpu 175.0672 diff=0.0000
 check gradW ci=446 h=0 w=0 co=251 cpu 17.8774 gpu 17.8774 diff=0.0000
 check gradW ci=71 h=2 w=1 co=89 cpu -5.5620 gpu -5.5620 diff=0.0000
 check gradW ci=459 h=1 w=2 co=6 cpu -140.7177 gpu -140.7177 diff=0.0000
 check gradW ci=145 h=0 w=0 co=104 cpu 103.0229 gpu 103.0229 diff=0.0000
-check gradW ci=440 h=0 w=1 co=129 cpu 98.0583 gpu 98.0583 diff=0.0001
+check gradW ci=440 h=0 w=1 co=129 cpu 98.0583 gpu 98.0584 diff=0.0000
 check gradW ci=37 h=1 w=1 co=488 cpu -91.0171 gpu -91.0172 diff=0.0000
 check gradI c=0 h=0 w=0 n=0 cpu 1.3310 gpu 1.3310 diff=0.0000
 check gradI c=53 h=4 w=1 n=52 cpu 16.6637 gpu 16.6636 diff=0.0001
@@ -267,19 +267,19 @@ check gradI c=89 h=9 w=6 n=8 cpu 35.5642 gpu 35.5641 diff=0.0001
 check gradI c=6 h=5 w=11 n=57 cpu -29.5667 gpu -29.5666 diff=0.0000
 check gradI c=104 h=0 w=1 n=18 cpu 27.5640 gpu 27.5641 diff=0.0001
 check gradI c=129 h=12 w=0 n=37 cpu 62.0266 gpu 62.0266 diff=0.0000
-fprop 0.023 bprop 0.072
-fprop 0.023 bprop 0.072
-fprop 0.023 bprop 0.072
-fprop 0.023 bprop 0.072
-fprop 0.022 bprop 0.069
+fprop 0.023 bprop 0.071
+fprop 0.022 bprop 0.071
+fprop 0.023 bprop 0.071
+fprop 0.023 bprop 0.070
 fprop 0.021 bprop 0.068
-fprop 0.021 bprop 0.068
-fprop 0.021 bprop 0.078
-fprop 0.025 bprop 0.077
-fprop 0.023 bprop 0.068
-avg fprop 0.023 bprop 0.072
-RUNNING {'kH': 3, 'epsO': 0.001, 'Ci': 512, 'iW': 14, 'epsGradW': 0.0001, 'iH': 14, 'epsGradI': 0.001, 'kW': 3, 'Co': 512}
-cl_context <pyopencl.Context at 0x36140c0 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2a926c0>>
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+avg fprop 0.022 bprop 0.069
+RUNNING {'kW': 3, 'Ci': 512, 'iW': 14, 'Co': 512, 'kH': 3, 'iH': 14}
+cl_context <pyopencl.Context at 0x27e3a40 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
 check O c=53 h=4 w=1 n=52 cpu -41.5060 gpu -41.5060 diff=0.0000
 check O c=272 h=1 w=13 n=4 cpu -61.3416 gpu -61.3416 diff=0.0000
@@ -298,10 +298,10 @@ check gradW ci=163 h=1 w=0 co=340 cpu 41.4680 gpu 41.4680 diff=0.0000
 check gradW ci=341 h=1 w=2 co=138 cpu 175.0672 gpu 175.0672 diff=0.0000
 check gradW ci=446 h=0 w=0 co=251 cpu 17.8774 gpu 17.8774 diff=0.0000
 check gradW ci=71 h=2 w=1 co=89 cpu -5.5620 gpu -5.5620 diff=0.0000
-check gradW ci=459 h=1 w=2 co=6 cpu -140.7177 gpu -140.7176 diff=0.0000
+check gradW ci=459 h=1 w=2 co=6 cpu -140.7177 gpu -140.7177 diff=0.0000
 check gradW ci=145 h=0 w=0 co=104 cpu 103.0229 gpu 103.0229 diff=0.0000
 check gradW ci=440 h=0 w=1 co=129 cpu 98.0583 gpu 98.0583 diff=0.0000
-check gradW ci=37 h=1 w=1 co=488 cpu -91.0171 gpu -91.0171 diff=0.0000
+check gradW ci=37 h=1 w=1 co=488 cpu -91.0171 gpu -91.0172 diff=0.0000
 check gradI c=0 h=0 w=0 n=0 cpu 1.3310 gpu 1.3310 diff=0.0000
 check gradI c=53 h=4 w=1 n=52 cpu 16.6637 gpu 16.6636 diff=0.0001
 check gradI c=272 h=1 w=13 n=4 cpu 16.7294 gpu 16.7294 diff=0.0000
@@ -313,26 +313,27 @@ check gradI c=89 h=9 w=6 n=8 cpu 35.5642 gpu 35.5641 diff=0.0001
 check gradI c=6 h=5 w=11 n=57 cpu -29.5667 gpu -29.5666 diff=0.0000
 check gradI c=104 h=0 w=1 n=18 cpu 27.5640 gpu 27.5641 diff=0.0001
 check gradI c=129 h=12 w=0 n=37 cpu 62.0266 gpu 62.0266 diff=0.0000
-fprop 0.023 bprop 0.072
-fprop 0.023 bprop 0.072
-fprop 0.023 bprop 0.072
-fprop 0.023 bprop 0.072
-fprop 0.023 bprop 0.072
-fprop 0.023 bprop 0.070
-fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.068
 fprop 0.021 bprop 0.068
 fprop 0.021 bprop 0.067
-fprop 0.021 bprop 0.068
-avg fprop 0.022 bprop 0.070
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+fprop 0.021 bprop 0.067
+avg fprop 0.021 bprop 0.067
 
 Results
 -------
 Layer 0: SKIPPING
-Layer 1: fprop=0.039 bprop=0.175
-Layer 2: fprop=0.040 bprop=0.126
-Layer 3: fprop=0.073 bprop=0.240
-Layer 4: fprop=0.038 bprop=0.125
-Layer 5: fprop=0.072 bprop=0.238
-Layer 6: fprop=0.023 bprop=0.072
-Layer 7: fprop=0.022 bprop=0.070
+Layer 1: fprop=0.039 bprop=0.173 eps_O=1e-05 eps_gradW=8e-04 eps_gradI=1e-05
+Layer 2: fprop=0.039 bprop=0.124 eps_O=1e-05 eps_gradW=4e-04 eps_gradI=2e-05
+Layer 3: fprop=0.073 bprop=0.237 eps_O=3e-05 eps_gradW=2e-04 eps_gradI=4e-05
+Layer 4: fprop=0.038 bprop=0.125 eps_O=2e-05 eps_gradW=5e-05 eps_gradI=2e-05
+Layer 5: fprop=0.073 bprop=0.238 eps_O=3e-05 eps_gradW=1e-04 eps_gradI=4e-05
+Layer 6: fprop=0.022 bprop=0.069 eps_O=5e-05 eps_gradW=2e-05 eps_gradI=7e-05
+Layer 7: fprop=0.021 bprop=0.067 eps_O=5e-05 eps_gradW=2e-05 eps_gradI=7e-05
+
 
