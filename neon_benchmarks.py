@@ -1,6 +1,7 @@
 """
 feed it a model name, will run benchmarks for that model
 """
+from __future__ import print_function, division
 import sys
 import time
 import importlib
@@ -26,8 +27,10 @@ def check_outputs(batch_size, layer_def, gpu_O, I, W, eps=1e-4):
         n = random.randint(0, batch_size - 1)
         params.append({'c': co, 'h': oh, 'w': ow, 'n': n})
 #    cpuref.check_O(gpu_O=gpu_O, W=W, I=I, c=0, h=0, w=0, n=0, eps=eps)
+    diffs = []
     for param in params:
-        cpuref.check_O(gpu_O=gpu_O, W=W, I=I, eps=eps, **param)
+        diffs.append(cpuref.check_O(gpu_O=gpu_O, W=W, I=I, eps=eps, **param))
+    return sum(diffs) / len(diffs)
 
 def check_gradW(batch_size, layer_def, gpu_gradW, I, W, gradO, eps=1e-4):
     input_filters = layer_def['Ci']
@@ -35,15 +38,19 @@ def check_gradW(batch_size, layer_def, gpu_gradW, I, W, gradO, eps=1e-4):
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
 
+    diffs = []
     random.seed(123)
     gpu_gradW = gpu_gradW.reshape((input_filters, kernel_size, kernel_size, output_filters))
-    cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, ci=0, h=0, w=0, co=0, eps=eps)
+    diff = cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, ci=0, h=0, w=0, co=0, eps=eps)
+    diffs.append(diff)
     for i in range(10):  # draw 10 samples
         co = random.randint(0, output_filters - 1)
         kh = random.randint(0, kernel_size - 1)
         kw = random.randint(0, kernel_size - 1)
         ci = random.randint(0, input_filters - 1)
-        cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, co=co, h=kh, w=kw, ci=ci, eps=eps)
+        diff = cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, co=co, h=kh, w=kw, ci=ci, eps=eps)
+        diffs.append(diff)
+    return sum(diffs) / len(diffs)
 
 def check_gradI(batch_size, layer_def, gpu_gradI, W, gradO, eps=1e-4):
     input_filters = layer_def['Ci']
@@ -51,15 +58,17 @@ def check_gradI(batch_size, layer_def, gpu_gradI, W, gradO, eps=1e-4):
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
 
+    diffs = []
     random.seed(123)
     gpu_gradI = gpu_gradI.reshape((input_filters, image_size, image_size, batch_size))
-    cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=0, h=0, w=0, n=0, eps=eps)
+    diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=0, h=0, w=0, n=0, eps=eps))
     for i in range(10):  # draw 10 samples
         ci = random.randint(0, input_filters - 1)
         ih = random.randint(0, image_size - 1)
         iw = random.randint(0, image_size - 1)
         n = random.randint(0, batch_size - 1)
-        cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=ci, h=ih, w=iw, n=n, eps=eps)
+        diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=ci, h=ih, w=iw, n=n, eps=eps))
+    return sum(diffs) / len(diffs)
 
 def test(backend, batch_size, its, layer_def):
     assert layer_def['iH'] == layer_def['iW']
@@ -82,13 +91,13 @@ def test(backend, batch_size, its, layer_def):
     # check correctness, for a few values, (this also serves as warmup):
     backend_obj.fprop()
     O = backend_obj.getO()
-    check_outputs(batch_size, layer_def, gpu_O=O, I=I, W=W, eps=layer_def['epsO'])
+    O_diffs = check_outputs(batch_size, layer_def, gpu_O=O, I=I, W=W)
 
     backend_obj.bprop()
     gradW = backend_obj.getGradW()
     gradI = backend_obj.getGradI()
-    check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO, eps=layer_def['epsGradW'])
-    check_gradI(batch_size, layer_def, gpu_gradI=gradI, W=W, gradO=gradO, eps=layer_def['epsGradI'])
+    gradW_diffs = check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO)
+    gradI_diffs = check_gradI(batch_size, layer_def, gpu_gradI=gradI, W=W, gradO=gradO)
     
     backend_obj.sync()
 
@@ -119,7 +128,9 @@ def test(backend, batch_size, its, layer_def):
         print('fprop %.3f bprop %.3f' % (fprop, bprop))
 
     print('avg fprop %.3f bprop %.3f' % (fpropCumTime / its, bpropCumTime / its))
-    return (fpropCumTime / its, bpropCumTime / its)
+    return {
+        'fprop': fpropCumTime / its, 'bprop': bpropCumTime / its, 'eps_O': O_diffs,
+        'eps_gradW': gradW_diffs, 'eps_gradI': gradI_diffs}
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -147,7 +158,8 @@ if __name__ == '__main__':
             print('RUNNING', layer_def)
             res = test(backend, batch_size, its, layer_def)
 #            results.append(res)
-            results.append('Layer %s: fprop=%.3f bprop=%.3f' % (i, res[0], res[1]))
+            results.append('Layer %s: fprop=%.3f bprop=%.3f eps_O=%.0e eps_gradW=%.0e eps_gradI=%.0e' % (
+                i, res['fprop'], res['bprop'], res['eps_O'], res['eps_gradW'], res['eps_gradI']))
         else:
             print('SKIPPING', layer_def)
             results.append('Layer %s: SKIPPING' % i)

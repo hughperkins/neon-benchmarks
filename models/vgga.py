@@ -11,29 +11,29 @@ def get_net():
     for i, op in enumerate(cfg):
         if isinstance(op, int):
             layer = {'Ci': channels, 'Co': op, 'iH': imageSize, 'iW': imageSize, 'kH': 3, 'kW': 3}
-            layer['epsO'] = 1e-4
-            layer['epsGradW'] = 1e-4
-            layer['epsGradI'] = 1e-4
-            if conv_index == 1:
-                layer['epsGradW'] = 1e-2
-            elif conv_index == 2:
-                layer['epsGradW'] = 1e-3
-            elif conv_index == 3:
-                layer['epsGradW'] = 1e-3
-                layer['epsGradI'] = 1e-3
-            elif conv_index == 4:
-                layer['epsGradW'] = 1e-3
-            elif conv_index == 5:
-                layer['epsO'] = 1e-3
-                layer['epsGradW'] = 1e-3
-                layer['epsGradI'] = 1e-3
-            elif conv_index == 6:
-                layer['epsO'] = 1e-3
-                layer['epsGradW'] = 1e-3
-                layer['epsGradI'] = 1e-3
-            elif conv_index == 7:
-                layer['epsO'] = 1e-3
-                layer['epsGradI'] = 1e-3
+#            layer['epsO'] = 1e-4
+#            layer['epsGradW'] = 1e-4
+#            layer['epsGradI'] = 1e-4
+#            if conv_index == 1:
+#                layer['epsGradW'] = 1e-2
+#            elif conv_index == 2:
+#                layer['epsGradW'] = 1e-3
+#            elif conv_index == 3:
+#                layer['epsGradW'] = 1e-3
+#                layer['epsGradI'] = 1e-3
+#            elif conv_index == 4:
+#                layer['epsGradW'] = 1e-3
+#            elif conv_index == 5:
+#                layer['epsO'] = 1e-3
+#                layer['epsGradW'] = 1e-3
+#                layer['epsGradI'] = 1e-3
+#            elif conv_index == 6:
+#                layer['epsO'] = 1e-3
+#                layer['epsGradW'] = 1e-3
+#                layer['epsGradI'] = 1e-3
+#            elif conv_index == 7:
+#                layer['epsO'] = 1e-3
+#                layer['epsGradI'] = 1e-3
             net.append(layer)
             channels = op
             conv_index += 1
