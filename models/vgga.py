@@ -21,6 +21,12 @@ def get_net():
 def get_batchsize():
     return 64
 
-#for layer in net:
-#    print(layer)
+def getEpsO():
+    return 1e-4
+
+def getEpsGradW():
+    return 1e-3
+
+def getEpsGradI():
+    return 1e-4
 
