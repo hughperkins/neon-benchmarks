@@ -25,7 +25,7 @@ def getEpsO():
     return 1e-4
 
 def getEpsGradW():
-    return 1e-3
+    return 1e-2
 
 def getEpsGradI():
     return 1e-4
