@@ -7,16 +7,18 @@ def get_net():
     channels = 3
 
     net = []
+    conv_index = 0
     for i, op in enumerate(cfg):
         if isinstance(op, int):
             layer = {'Ci': channels, 'Co': op, 'iH': imageSize, 'iW': imageSize, 'kH': 3, 'kW': 3}
             layer['epsO'] = 1e-4
             layer['epsGradW'] = 1e-4
             layer['epsGradI'] = 1e-4
-            if i == 1:
+            if conv_index == 1:
                 layer['epsGradW'] = 1e-2
             net.append(layer)
             channels = op
+            conv_index += 1
         elif op == 'M':
             imageSize = int(math.ceil(imageSize / 2))
         else:
