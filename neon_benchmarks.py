@@ -9,49 +9,57 @@ import argparse
 import cpuref
 import random
 
-def check_outputs(batch_size, layer_def, gpu_O, I, W):
+def check_outputs(batch_size, layer_def, gpu_O, I, W, eps=1e-4):
     input_filters = layer_def['Ci']
     output_filters = layer_def['Co']
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
 
-    cpuref.check_O(gpu_O=gpu_O, W=W, I=I, c=0, h=0, w=0, n=0)
+    random.seed(123)
+    # prepare params now, in case something else modifies seed later
+    params = []
+    params.append({'c': 0, 'h': 0, 'w': 0, 'n': 0})
     for i in range(10):  # draw 10 samples
         co = random.randint(0, output_filters - 1)
         oh = random.randint(0, image_size - 1)
         ow = random.randint(0, image_size - 1)
         n = random.randint(0, batch_size - 1)
-        cpuref.check_O(gpu_O=gpu_O, W=W, I=I, c=co, h=oh, w=ow, n=n)
+        params.append({'c': co, 'h': oh, 'w': ow, 'n': n})
+#    cpuref.check_O(gpu_O=gpu_O, W=W, I=I, c=0, h=0, w=0, n=0, eps=eps)
+    for param in params:
+        cpuref.check_O(gpu_O=gpu_O, W=W, I=I, eps=eps, **param)
 
-def check_gradW(batch_size, layer_def, gpu_gradW, I, W, gradO):
+def check_gradW(batch_size, layer_def, gpu_gradW, I, W, gradO, eps=1e-4):
     input_filters = layer_def['Ci']
     output_filters = layer_def['Co']
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
 
+    random.seed(123)
     gpu_gradW = gpu_gradW.reshape((input_filters, kernel_size, kernel_size, output_filters))
-    cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, ci=0, h=0, w=0, co=0)
+    cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, ci=0, h=0, w=0, co=0, eps=eps)
     for i in range(10):  # draw 10 samples
         co = random.randint(0, output_filters - 1)
         kh = random.randint(0, kernel_size - 1)
         kw = random.randint(0, kernel_size - 1)
         ci = random.randint(0, input_filters - 1)
-        cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, co=co, h=kh, w=kw, ci=ci)
+        cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, co=co, h=kh, w=kw, ci=ci, eps=eps)
 
-def check_gradI(batch_size, layer_def, gpu_gradI, W, gradO):
+def check_gradI(batch_size, layer_def, gpu_gradI, W, gradO, eps=1e-4):
     input_filters = layer_def['Ci']
     output_filters = layer_def['Co']
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
 
+    random.seed(123)
     gpu_gradI = gpu_gradI.reshape((input_filters, image_size, image_size, batch_size))
-    cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=0, h=0, w=0, n=0)
+    cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=0, h=0, w=0, n=0, eps=eps)
     for i in range(10):  # draw 10 samples
         ci = random.randint(0, input_filters - 1)
         ih = random.randint(0, image_size - 1)
         iw = random.randint(0, image_size - 1)
         n = random.randint(0, batch_size - 1)
-        cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=ci, h=ih, w=iw, n=n)
+        cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=ci, h=ih, w=iw, n=n, eps=eps)
 
 def test(backend, batch_size, its, layer_def):
     assert layer_def['iH'] == layer_def['iW']
@@ -63,23 +71,23 @@ def test(backend, batch_size, its, layer_def):
     kernel_size = layer_def['kH']
 
     np.random.seed(123)
-
     I = np.zeros((input_filters,image_size, image_size, batch_size), dtype=np.float32)
     I[:] = np.random.randn(*I.shape)
     W = np.random.randn(input_filters, kernel_size, kernel_size, output_filters).astype(np.float32)
     gradO = np.random.randn(image_size * image_size * output_filters, batch_size).astype(np.float32)
 
-    backend_obj = backend.Test(batch_size=batch_size, its=its, layer_def=layer_def, I=I, W=W, gradO=gradO)
+    # we copy the tensors, to make sure the backend doesnt sneakily modify them itself :-P
+    backend_obj = backend.Test(batch_size=batch_size, its=its, layer_def=layer_def, I=np.copy(I), W=np.copy(W), gradO=np.copy(gradO))
 
     # check correctness, for a few values, (this also serves as warmup):
     backend_obj.fprop()
     O = backend_obj.getO()
-    check_outputs(batch_size, layer_def, gpu_O=O, I=I, W=W)
+    check_outputs(batch_size, layer_def, gpu_O=O, I=I, W=W, eps=1e-4)
 
     backend_obj.bprop()
     gradW = backend_obj.getGradW()
     gradI = backend_obj.getGradI()
-    check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO)
+    check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO, eps=1e-2)
     check_gradI(batch_size, layer_def, gpu_gradI=gradI, W=W, gradO=gradO)
     
     backend_obj.sync()
