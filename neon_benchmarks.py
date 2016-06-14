@@ -125,6 +125,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--backend', default='winogradcl')
     parser.add_argument('--model', default='vgga')
+    parser.add_argument('--layer', default='all', help='zero-indexed')
     args = parser.parse_args()
 
     model_name = args.model
@@ -140,6 +141,8 @@ if __name__ == '__main__':
     print('batch_size', batch_size)
     results = []
     for i, layer_def in enumerate(model.get_net()):
+        if args.layer != 'all' and str(i) != args.layer:
+            continue
         if layer_def['Ci'] >= 4:
             print('RUNNING', layer_def)
             res = test(backend, batch_size, its, layer_def)
