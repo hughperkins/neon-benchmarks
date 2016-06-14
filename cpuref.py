@@ -57,14 +57,16 @@ def check_gradW(I, W, gradO, gradW, ci, h, w, co, eps=1e-2):
                     sum += v
     cpu_value = sum
     gpu_value = gradW[ci, kh, kw, co]
-    print('gpu', gpu_value, 'cpu', cpu_value)
+#    print('gpu', gpu_value, 'cpu', cpu_value)
+    diff = abs(cpu_value - gpu_value)
+    print('check gradW ci=%s h=%s w=%s co=%s cpu %.4f gpu %.4f diff=%.4f' % (ci, h, w, co, cpu_value, gpu_value, diff))
     assert abs(cpu_value - gpu_value) < eps
     return cpu_value
 
-def check_gradI(O, I, W, gradO, gradI, c, h, w, n, eps=1e-4):
-    N = I.shape[3]
-    iH = I.shape[1]
-    iW = I.shape[2]
+def check_gradI(W, gradO, gradI, c, h, w, n, eps=1e-4):
+    N = gradI.shape[3]
+    iH = gradI.shape[1]
+    iW = gradI.shape[2]
     Ci = W.shape[0]
     kH = W.shape[1]
     kW = W.shape[2]
@@ -91,7 +93,9 @@ def check_gradI(O, I, W, gradO, gradI, c, h, w, n, eps=1e-4):
                     sum += v
     cpu_value = sum
     gpu_value = gradI[c, ih, iw, n]
-    print('gpu', gpu_value, 'cpu', cpu_value)
+#    print('gpu', gpu_value, 'cpu', cpu_value)
+    diff = abs(cpu_value - gpu_value)
+    print('check gradI c=%s h=%s w=%s n=%s cpu %.4f gpu %.4f diff=%.4f' % (c, h, w, n, cpu_value, gpu_value, diff))
     assert abs(cpu_value - gpu_value) < eps
     return cpu_value
 
@@ -121,7 +125,8 @@ def check_O(gpu_O, W, I, c, h, w, n, eps=1e-4):
                     sum += v
     cpu_value = sum
     gpu_value = gpu_O[c*iH*iW + h*iW + w,n]
-    print('c', c, 'h', h, 'w', w, 'n', n, 'cpu %.6f gpu %.6f' % (cpu_value, gpu_value))
+    diff = abs(cpu_value - gpu_value)
+    print('check O c=%s h=%s w=%s n=%s cpu %.4f gpu %.4f diff=%.4f' % (c, h, w, n, cpu_value, gpu_value, diff))
     assert abs(cpu_value - gpu_value) < eps
     return cpu_value
 

@@ -29,8 +29,6 @@ def check_gradW(batch_size, layer_def, gpu_gradW, I, W, gradO):
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
 
-#    print('gpu_gradW.shape', gpu_gradW.shape)
-#    print(input_filters, image_size, image_size
     gpu_gradW = gpu_gradW.reshape((input_filters, kernel_size, kernel_size, output_filters))
     cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, ci=0, h=0, w=0, co=0)
     for i in range(10):  # draw 10 samples
@@ -39,6 +37,21 @@ def check_gradW(batch_size, layer_def, gpu_gradW, I, W, gradO):
         kw = random.randint(0, kernel_size - 1)
         ci = random.randint(0, input_filters - 1)
         cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, co=co, h=kh, w=kw, ci=ci)
+
+def check_gradI(batch_size, layer_def, gpu_gradI, W, gradO):
+    input_filters = layer_def['Ci']
+    output_filters = layer_def['Co']
+    image_size = layer_def['iW']
+    kernel_size = layer_def['kH']
+
+    gpu_gradI = gpu_gradI.reshape((input_filters, image_size, image_size, batch_size))
+    cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=0, h=0, w=0, n=0)
+    for i in range(10):  # draw 10 samples
+        ci = random.randint(0, input_filters - 1)
+        ih = random.randint(0, image_size - 1)
+        iw = random.randint(0, image_size - 1)
+        n = random.randint(0, batch_size - 1)
+        cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=ci, h=ih, w=iw, n=n)
 
 def test(backend, batch_size, its, layer_def):
     assert layer_def['iH'] == layer_def['iW']
@@ -67,6 +80,7 @@ def test(backend, batch_size, its, layer_def):
     gradW = backend_obj.getGradW()
     gradI = backend_obj.getGradI()
     check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO)
+    check_gradI(batch_size, layer_def, gpu_gradI=gradI, W=W, gradO=gradO)
     
     backend_obj.sync()
 
