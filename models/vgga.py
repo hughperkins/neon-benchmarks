@@ -13,6 +13,8 @@ def get_net():
             layer['epsO'] = 1e-4
             layer['epsGradW'] = 1e-4
             layer['epsGradI'] = 1e-4
+            if i == 0:
+                layer['epsGradW'] = 1e-2
             net.append(layer)
             channels = op
         elif op == 'M':
@@ -23,13 +25,4 @@ def get_net():
 
 def get_batchsize():
     return 64
-
-#def getEpsO():
-#    return 1e-4
-
-#def getEpsGradW():
-#    return 1e-2
-
-#def getEpsGradI():
-#    return 1e-3
 
