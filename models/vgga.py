@@ -28,5 +28,5 @@ def getEpsGradW():
     return 1e-2
 
 def getEpsGradI():
-    return 1e-4
+    return 1e-3
 
