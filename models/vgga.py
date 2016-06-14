@@ -21,6 +21,8 @@ def get_net():
             elif conv_index == 3:
                 layer['epsGradW'] = 1e-3
                 layer['epsGradI'] = 1e-3
+            elif conv_index == 4:
+                layer['epsGradW'] = 1e-3
             net.append(layer)
             channels = op
             conv_index += 1
