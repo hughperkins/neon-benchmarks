@@ -13,7 +13,7 @@ def get_net():
             layer['epsO'] = 1e-4
             layer['epsGradW'] = 1e-4
             layer['epsGradI'] = 1e-4
-            if i == 0:
+            if i == 1:
                 layer['epsGradW'] = 1e-2
             net.append(layer)
             channels = op
