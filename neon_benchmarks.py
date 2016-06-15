@@ -162,14 +162,14 @@ if __name__ == '__main__':
         if args.layer != 'all' and str(i) != args.layer:
             continue
         try:
+            print(layer_def)
             res = test(backend, batch_size, its, layer_def)
 #            results.append(res)
-            print('RUNNING', layer_def)
             results.append('Layer %s: fprop=%.3f bprop=%.3f eps_O=%.0e eps_gradW=%.0e eps_gradI=%.0e' % (
                 i, res['fprop'], res['bprop'], res['eps_O'], res['eps_gradW'], res['eps_gradI']))
         except Exception as e:
             logger.debug(traceback.format_exc())
-            print('SKIPPING', layer_def)
+            print('.. SKIPPED')
             results.append('Layer %s: SKIPPING' % i)
     print('')
     print('Results')
