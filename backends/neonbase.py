@@ -26,8 +26,6 @@ class Test(object):
         assert layer_def['kH'] == layer_def['kW']
         padding = (filter_size // 2)
 
-        assert input_filters >= 4
-
         self.I = I
         self.W = W
         self.gradO = gradO

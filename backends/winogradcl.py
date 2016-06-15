@@ -17,6 +17,8 @@ class Test(object):
         assert layer_def['iH'] == image_size
         assert layer_def['kH'] == layer_def['kW'] == 3
 
+        assert input_filters >= 4
+
         self.W = W
         self.I = I
         self.gradO = gradO
