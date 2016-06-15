@@ -1,8 +1,21 @@
 $ KEPLER=1 neon_benchmarks.py --model vgga --backend neonbase
 model_name vgga backend_name neonbase
 batch_size 64
-SKIPPING {'Ci': 3, 'Co': 64, 'kH': 3, 'iW': 224, 'iH': 224, 'kW': 3}
-RUNNING {'Ci': 64, 'Co': 128, 'kH': 3, 'iW': 112, 'iH': 112, 'kW': 3}
+{'Ci': 3, 'Co': 64, 'kH': 3, 'iW': 224, 'iH': 224, 'kW': 3}
+forcing kepler
+check O c=0 h=0 w=0 n=0 cpu 6.2140 gpu 6.2140 diff=0.0000
+check O c=3 h=19 w=91 n=6 cpu -3.9881 gpu -3.9881 diff=0.0000
+check O c=57 h=8 w=120 n=21 cpu -0.6581 gpu -0.6581 diff=0.0000
+check O c=54 h=35 w=75 n=21 cpu -9.5135 gpu -9.5135 diff=0.0000
+check O c=15 h=0 w=97 n=5 cpu -8.5092 gpu -8.5092 diff=0.0000
+check O c=38 h=15 w=70 n=28 cpu 3.7008 gpu 3.7008 diff=0.0000
+check O c=57 h=20 w=31 n=50 cpu -0.2302 gpu -0.2302 diff=0.0000
+check O c=1 h=204 w=128 n=16 cpu -2.1859 gpu -2.1859 diff=0.0000
+check O c=53 h=172 w=76 n=51 cpu 4.0585 gpu 4.0585 diff=0.0000
+check O c=13 h=136 w=118 n=51 cpu 5.5798 gpu 5.5798 diff=0.0000
+check O c=20 h=89 w=172 n=32 cpu -9.1981 gpu -9.1981 diff=0.0000
+... SKIPPED
+{'Ci': 64, 'Co': 128, 'kH': 3, 'iW': 112, 'iH': 112, 'kW': 3}
 forcing kepler
 check O c=0 h=0 w=0 n=0 cpu 25.3647 gpu 25.3647 diff=0.0000
 check O c=6 h=9 w=45 n=6 cpu -37.3390 gpu -37.3390 diff=0.0000
@@ -48,7 +61,7 @@ fprop 0.032 bprop 0.158
 fprop 0.032 bprop 0.158
 fprop 0.032 bprop 0.158
 avg fprop 0.032 bprop 0.158
-RUNNING {'Ci': 128, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
+{'Ci': 128, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
 forcing kepler
 check O c=0 h=0 w=0 n=0 cpu 18.7881 gpu 18.7881 diff=0.0000
 check O c=13 h=4 w=22 n=6 cpu 30.3633 gpu 30.3633 diff=0.0000
@@ -94,7 +107,7 @@ fprop 0.033 bprop 0.110
 fprop 0.034 bprop 0.111
 fprop 0.033 bprop 0.111
 avg fprop 0.033 bprop 0.110
-RUNNING {'Ci': 256, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
+{'Ci': 256, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
 forcing kepler
 check O c=0 h=0 w=0 n=0 cpu 15.1606 gpu 15.1607 diff=0.0000
 check O c=13 h=4 w=22 n=6 cpu 82.1956 gpu 82.1957 diff=0.0000
@@ -140,7 +153,7 @@ fprop 0.068 bprop 0.222
 fprop 0.068 bprop 0.224
 fprop 0.067 bprop 0.224
 avg fprop 0.067 bprop 0.222
-RUNNING {'Ci': 256, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
+{'Ci': 256, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
 forcing kepler
 check O c=0 h=0 w=0 n=0 cpu -3.7205 gpu -3.7205 diff=0.0000
 check O c=26 h=2 w=11 n=6 cpu 4.5413 gpu 4.5413 diff=0.0000
@@ -186,7 +199,7 @@ fprop 0.033 bprop 0.111
 fprop 0.033 bprop 0.111
 fprop 0.033 bprop 0.111
 avg fprop 0.033 bprop 0.111
-RUNNING {'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
+{'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
 forcing kepler
 check O c=0 h=0 w=0 n=0 cpu -88.1978 gpu -88.1978 diff=0.0000
 check O c=26 h=2 w=11 n=6 cpu 17.5379 gpu 17.5379 diff=0.0000
@@ -232,7 +245,7 @@ fprop 0.067 bprop 0.224
 fprop 0.066 bprop 0.221
 fprop 0.066 bprop 0.223
 avg fprop 0.066 bprop 0.222
-RUNNING {'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
+{'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
 forcing kepler
 check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
 check O c=26 h=1 w=5 n=6 cpu -17.7691 gpu -17.7691 diff=0.0000
@@ -278,7 +291,7 @@ fprop 0.016 bprop 0.055
 fprop 0.016 bprop 0.055
 fprop 0.016 bprop 0.054
 avg fprop 0.016 bprop 0.053
-RUNNING {'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
+{'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
 forcing kepler
 check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
 check O c=26 h=1 w=5 n=6 cpu -17.7691 gpu -17.7691 diff=0.0000
@@ -327,7 +340,7 @@ avg fprop 0.016 bprop 0.053
 
 Results
 -------
-Layer 0: SKIPPING
+Layer 0: SKIPPED
 Layer 1: fprop=0.032 bprop=0.158 eps_O=9e-06 eps_gradW=1e-03 eps_gradI=2e-05
 Layer 2: fprop=0.033 bprop=0.110 eps_O=2e-05 eps_gradW=3e-04 eps_gradI=2e-05
 Layer 3: fprop=0.067 bprop=0.222 eps_O=2e-05 eps_gradW=3e-04 eps_gradI=3e-05
@@ -335,5 +348,4 @@ Layer 4: fprop=0.033 bprop=0.111 eps_O=3e-05 eps_gradW=1e-04 eps_gradI=9e-05
 Layer 5: fprop=0.066 bprop=0.222 eps_O=4e-05 eps_gradW=9e-05 eps_gradI=5e-05
 Layer 6: fprop=0.016 bprop=0.053 eps_O=4e-05 eps_gradW=2e-05 eps_gradI=3e-05
 Layer 7: fprop=0.016 bprop=0.053 eps_O=4e-05 eps_gradW=2e-05 eps_gradI=3e-05
-
 

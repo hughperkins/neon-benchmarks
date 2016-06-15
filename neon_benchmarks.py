@@ -170,7 +170,7 @@ if __name__ == '__main__':
         except Exception as e:
             logger.debug(traceback.format_exc())
             print('.. SKIPPED')
-            results.append('Layer %s: SKIPPING' % i)
+            results.append('Layer %s: SKIPPED' % i)
     print('')
     print('Results')
     print('-------')

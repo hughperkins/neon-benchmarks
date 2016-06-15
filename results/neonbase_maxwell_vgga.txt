@@ -1,8 +1,52 @@
 $ neon_benchmarks.py --model vgga --backend neonbase
 model_name vgga backend_name neonbase
 batch_size 64
-SKIPPING {'Ci': 3, 'Co': 64, 'kH': 3, 'iW': 224, 'iH': 224, 'kW': 3}
-RUNNING {'Ci': 64, 'Co': 128, 'kH': 3, 'iW': 112, 'iH': 112, 'kW': 3}
+{'Ci': 3, 'Co': 64, 'kH': 3, 'iW': 224, 'iH': 224, 'kW': 3}
+check O c=0 h=0 w=0 n=0 cpu 6.2140 gpu 6.2140 diff=0.0000
+check O c=3 h=19 w=91 n=6 cpu -3.9881 gpu -3.9881 diff=0.0000
+check O c=57 h=8 w=120 n=21 cpu -0.6581 gpu -0.6581 diff=0.0000
+check O c=54 h=35 w=75 n=21 cpu -9.5135 gpu -9.5135 diff=0.0000
+check O c=15 h=0 w=97 n=5 cpu -8.5092 gpu -8.5092 diff=0.0000
+check O c=38 h=15 w=70 n=28 cpu 3.7008 gpu 3.7008 diff=0.0000
+check O c=57 h=20 w=31 n=50 cpu -0.2302 gpu -0.2302 diff=0.0000
+check O c=1 h=204 w=128 n=16 cpu -2.1859 gpu -2.1859 diff=0.0000
+check O c=53 h=172 w=76 n=51 cpu 4.0585 gpu 4.0585 diff=0.0000
+check O c=13 h=136 w=118 n=51 cpu 5.5798 gpu 5.5798 diff=0.0000
+check O c=20 h=89 w=172 n=32 cpu -9.1981 gpu -9.1981 diff=0.0000
+check gradW ci=0 h=0 w=0 co=0 cpu 652.8039 gpu 652.8049 diff=0.0011
+check gradW ci=0 h=0 w=1 co=3 cpu -2904.6165 gpu -2904.6172 diff=0.0007
+check gradW ci=0 h=0 w=1 co=57 cpu 611.8489 gpu 611.8534 diff=0.0045
+check gradW ci=1 h=0 w=1 co=54 cpu 1832.4384 gpu 1832.4425 diff=0.0041
+check gradW ci=0 h=0 w=1 co=15 cpu -2209.3021 gpu -2209.3037 diff=0.0016
+check gradW ci=1 h=0 w=0 co=38 cpu 1738.2851 gpu 1738.2891 diff=0.0039
+check gradW ci=2 h=0 w=0 co=57 cpu 1368.3673 gpu 1368.3687 diff=0.0013
+check gradW ci=0 h=2 w=1 co=1 cpu -3016.2727 gpu -3016.2742 diff=0.0015
+check gradW ci=2 h=2 w=1 co=53 cpu -2071.3234 gpu -2071.3245 diff=0.0011
+check gradW ci=2 h=1 w=1 co=13 cpu 25.7436 gpu 25.7451 diff=0.0014
+check gradW ci=1 h=1 w=2 co=20 cpu -272.3484 gpu -272.3478 diff=0.0006
+check gradI c=0 h=0 w=0 n=0 cpu -9.1552 gpu -9.1552 diff=0.0000
+check gradI c=0 h=19 w=91 n=6 cpu -10.6112 gpu -10.6111 diff=0.0001
+check gradI c=2 h=8 w=120 n=21 cpu -27.0728 gpu -27.0728 diff=0.0000
+check gradI c=2 h=35 w=75 n=21 cpu -12.7393 gpu -12.7391 diff=0.0001
+check gradI c=0 h=0 w=97 n=5 cpu -2.7156 gpu -2.7156 diff=0.0000
+check gradI c=1 h=15 w=70 n=28 cpu 20.3422 gpu 20.3421 diff=0.0001
+check gradI c=2 h=20 w=31 n=50 cpu 26.4850 gpu 26.4851 diff=0.0001
+check gradI c=0 h=204 w=128 n=16 cpu -31.6068 gpu -31.6068 diff=0.0000
+check gradI c=2 h=172 w=76 n=51 cpu 17.4449 gpu 17.4449 diff=0.0000
+check gradI c=0 h=136 w=118 n=51 cpu 29.3842 gpu 29.3842 diff=0.0000
+check gradI c=0 h=89 w=172 n=32 cpu 39.5142 gpu 39.5142 diff=0.0000
+fprop 0.008 bprop 0.038
+fprop 0.004 bprop 0.038
+fprop 0.004 bprop 0.038
+fprop 0.004 bprop 0.036
+fprop 0.004 bprop 0.036
+fprop 0.004 bprop 0.036
+fprop 0.004 bprop 0.036
+fprop 0.004 bprop 0.034
+fprop 0.004 bprop 0.034
+fprop 0.004 bprop 0.034
+avg fprop 0.004 bprop 0.036
+{'Ci': 64, 'Co': 128, 'kH': 3, 'iW': 112, 'iH': 112, 'kW': 3}
 check O c=0 h=0 w=0 n=0 cpu 25.3647 gpu 25.3647 diff=0.0000
 check O c=6 h=9 w=45 n=6 cpu -37.3390 gpu -37.3390 diff=0.0000
 check O c=115 h=4 w=60 n=21 cpu 55.1472 gpu 55.1472 diff=0.0000
@@ -47,7 +91,7 @@ fprop 0.013 bprop 0.032
 fprop 0.012 bprop 0.032
 fprop 0.012 bprop 0.031
 avg fprop 0.012 bprop 0.032
-RUNNING {'Ci': 128, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
+{'Ci': 128, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
 check O c=0 h=0 w=0 n=0 cpu 18.7881 gpu 18.7881 diff=0.0000
 check O c=13 h=4 w=22 n=6 cpu 30.3633 gpu 30.3633 diff=0.0000
 check O c=230 h=2 w=30 n=21 cpu -17.4810 gpu -17.4810 diff=0.0000
@@ -92,7 +136,7 @@ fprop 0.009 bprop 0.022
 fprop 0.009 bprop 0.021
 fprop 0.009 bprop 0.021
 avg fprop 0.009 bprop 0.021
-RUNNING {'Ci': 256, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
+{'Ci': 256, 'Co': 256, 'kH': 3, 'iW': 56, 'iH': 56, 'kW': 3}
 check O c=0 h=0 w=0 n=0 cpu 15.1606 gpu 15.1606 diff=0.0001
 check O c=13 h=4 w=22 n=6 cpu 82.1956 gpu 82.1956 diff=0.0000
 check O c=230 h=2 w=30 n=21 cpu -29.0710 gpu -29.0710 diff=0.0001
@@ -137,7 +181,7 @@ fprop 0.018 bprop 0.037
 fprop 0.017 bprop 0.038
 fprop 0.017 bprop 0.037
 avg fprop 0.017 bprop 0.036
-RUNNING {'Ci': 256, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
+{'Ci': 256, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
 check O c=0 h=0 w=0 n=0 cpu -3.7205 gpu -3.7205 diff=0.0000
 check O c=26 h=2 w=11 n=6 cpu 4.5413 gpu 4.5411 diff=0.0003
 check O c=461 h=1 w=15 n=21 cpu -20.6496 gpu -20.6496 diff=0.0000
@@ -182,7 +226,7 @@ fprop 0.007 bprop 0.016
 fprop 0.007 bprop 0.017
 fprop 0.007 bprop 0.017
 avg fprop 0.007 bprop 0.016
-RUNNING {'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
+{'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 28, 'iH': 28, 'kW': 3}
 check O c=0 h=0 w=0 n=0 cpu -88.1978 gpu -88.1978 diff=0.0000
 check O c=26 h=2 w=11 n=6 cpu 17.5379 gpu 17.5380 diff=0.0001
 check O c=461 h=1 w=15 n=21 cpu 19.8298 gpu 19.8299 diff=0.0001
@@ -227,7 +271,7 @@ fprop 0.015 bprop 0.033
 fprop 0.015 bprop 0.033
 fprop 0.016 bprop 0.033
 avg fprop 0.015 bprop 0.031
-RUNNING {'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
+{'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
 check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
 check O c=26 h=1 w=5 n=6 cpu -17.7691 gpu -17.7692 diff=0.0001
 check O c=461 h=0 w=7 n=21 cpu -77.6309 gpu -77.6311 diff=0.0001
@@ -272,7 +316,7 @@ fprop 0.005 bprop 0.010
 fprop 0.005 bprop 0.010
 fprop 0.005 bprop 0.010
 avg fprop 0.005 bprop 0.010
-RUNNING {'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
+{'Ci': 512, 'Co': 512, 'kH': 3, 'iW': 14, 'iH': 14, 'kW': 3}
 check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
 check O c=26 h=1 w=5 n=6 cpu -17.7691 gpu -17.7692 diff=0.0001
 check O c=461 h=0 w=7 n=21 cpu -77.6309 gpu -77.6311 diff=0.0001
@@ -320,7 +364,7 @@ avg fprop 0.005 bprop 0.010
 
 Results
 -------
-Layer 0: SKIPPING
+Layer 0: fprop=0.004 bprop=0.036 eps_O=3e-07 eps_gradW=2e-03 eps_gradI=4e-05
 Layer 1: fprop=0.012 bprop=0.032 eps_O=1e-05 eps_gradW=1e-02 eps_gradI=3e-05
 Layer 2: fprop=0.009 bprop=0.021 eps_O=5e-05 eps_gradW=2e-03 eps_gradI=6e-05
 Layer 3: fprop=0.017 bprop=0.036 eps_O=1e-04 eps_gradW=3e-03 eps_gradI=8e-05

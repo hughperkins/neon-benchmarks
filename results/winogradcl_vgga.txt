@@ -1,8 +1,9 @@
 $ neon_benchmarks.py --model vgga --backend winogradcl
 model_name vgga backend_name winogradcl
 batch_size 64
-SKIPPING {'kW': 3, 'Ci': 3, 'iW': 224, 'Co': 64, 'kH': 3, 'iH': 224}
-RUNNING {'kW': 3, 'Ci': 64, 'iW': 112, 'Co': 128, 'kH': 3, 'iH': 112}
+{'kW': 3, 'Ci': 3, 'iW': 224, 'Co': 64, 'kH': 3, 'iH': 224}
+... SKIPPED
+{'kW': 3, 'Ci': 64, 'iW': 112, 'Co': 128, 'kH': 3, 'iH': 112}
 cl_context <pyopencl.Context at 0x283f730 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 25.3647 gpu 25.3647 diff=0.0000
 check O c=13 h=34 w=11 n=52 cpu -15.5126 gpu -15.5126 diff=0.0000
@@ -48,7 +49,7 @@ fprop 0.038 bprop 0.173
 fprop 0.038 bprop 0.173
 fprop 0.039 bprop 0.173
 avg fprop 0.039 bprop 0.173
-RUNNING {'kW': 3, 'Ci': 128, 'iW': 56, 'Co': 256, 'kH': 3, 'iH': 56}
+{'kW': 3, 'Ci': 128, 'iW': 56, 'Co': 256, 'kH': 3, 'iH': 56}
 cl_context <pyopencl.Context at 0x32add90 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 18.7881 gpu 18.7881 diff=0.0000
 check O c=26 h=17 w=5 n=52 cpu -10.5439 gpu -10.5439 diff=0.0000
@@ -94,7 +95,7 @@ fprop 0.039 bprop 0.124
 fprop 0.039 bprop 0.124
 fprop 0.039 bprop 0.126
 avg fprop 0.039 bprop 0.124
-RUNNING {'kW': 3, 'Ci': 256, 'iW': 56, 'Co': 256, 'kH': 3, 'iH': 56}
+{'kW': 3, 'Ci': 256, 'iW': 56, 'Co': 256, 'kH': 3, 'iH': 56}
 cl_context <pyopencl.Context at 0x38913e0 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 15.1606 gpu 15.1607 diff=0.0000
 check O c=26 h=17 w=5 n=52 cpu -21.4197 gpu -21.4198 diff=0.0001
@@ -140,7 +141,7 @@ fprop 0.073 bprop 0.238
 fprop 0.074 bprop 0.240
 fprop 0.074 bprop 0.238
 avg fprop 0.073 bprop 0.237
-RUNNING {'kW': 3, 'Ci': 256, 'iW': 28, 'Co': 512, 'kH': 3, 'iH': 28}
+{'kW': 3, 'Ci': 256, 'iW': 28, 'Co': 512, 'kH': 3, 'iH': 28}
 cl_context <pyopencl.Context at 0x38913e0 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu -3.7205 gpu -3.7205 diff=0.0000
 check O c=53 h=8 w=2 n=52 cpu -3.3635 gpu -3.3635 diff=0.0000
@@ -186,7 +187,7 @@ fprop 0.038 bprop 0.124
 fprop 0.038 bprop 0.125
 fprop 0.038 bprop 0.125
 avg fprop 0.038 bprop 0.125
-RUNNING {'kW': 3, 'Ci': 512, 'iW': 28, 'Co': 512, 'kH': 3, 'iH': 28}
+{'kW': 3, 'Ci': 512, 'iW': 28, 'Co': 512, 'kH': 3, 'iH': 28}
 cl_context <pyopencl.Context at 0x30dfe60 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu -88.1978 gpu -88.1978 diff=0.0000
 check O c=53 h=8 w=2 n=52 cpu -17.6191 gpu -17.6191 diff=0.0000
@@ -232,7 +233,7 @@ fprop 0.081 bprop 0.244
 fprop 0.071 bprop 0.238
 fprop 0.073 bprop 0.238
 avg fprop 0.073 bprop 0.238
-RUNNING {'kW': 3, 'Ci': 512, 'iW': 14, 'Co': 512, 'kH': 3, 'iH': 14}
+{'kW': 3, 'Ci': 512, 'iW': 14, 'Co': 512, 'kH': 3, 'iH': 14}
 cl_context <pyopencl.Context at 0x34fca90 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
 check O c=53 h=4 w=1 n=52 cpu -41.5060 gpu -41.5060 diff=0.0000
@@ -278,7 +279,7 @@ fprop 0.021 bprop 0.067
 fprop 0.021 bprop 0.067
 fprop 0.021 bprop 0.067
 avg fprop 0.022 bprop 0.069
-RUNNING {'kW': 3, 'Ci': 512, 'iW': 14, 'Co': 512, 'kH': 3, 'iH': 14}
+{'kW': 3, 'Ci': 512, 'iW': 14, 'Co': 512, 'kH': 3, 'iH': 14}
 cl_context <pyopencl.Context at 0x27e3a40 on <pyopencl.Device 'GeForce GTX TITAN X' on 'NVIDIA CUDA' at 0x2762c30>>
 check O c=0 h=0 w=0 n=0 cpu 32.5189 gpu 32.5189 diff=0.0000
 check O c=53 h=4 w=1 n=52 cpu -41.5060 gpu -41.5060 diff=0.0000
@@ -327,7 +328,7 @@ avg fprop 0.021 bprop 0.067
 
 Results
 -------
-Layer 0: SKIPPING
+Layer 0: SKIPPED
 Layer 1: fprop=0.039 bprop=0.173 eps_O=1e-05 eps_gradW=8e-04 eps_gradI=1e-05
 Layer 2: fprop=0.039 bprop=0.124 eps_O=1e-05 eps_gradW=4e-04 eps_gradI=2e-05
 Layer 3: fprop=0.073 bprop=0.237 eps_O=3e-05 eps_gradW=2e-04 eps_gradI=4e-05
@@ -335,5 +336,4 @@ Layer 4: fprop=0.038 bprop=0.125 eps_O=2e-05 eps_gradW=5e-05 eps_gradI=2e-05
 Layer 5: fprop=0.073 bprop=0.238 eps_O=3e-05 eps_gradW=1e-04 eps_gradI=4e-05
 Layer 6: fprop=0.022 bprop=0.069 eps_O=5e-05 eps_gradW=2e-05 eps_gradI=7e-05
 Layer 7: fprop=0.021 bprop=0.067 eps_O=5e-05 eps_gradW=2e-05 eps_gradI=7e-05
-
 
