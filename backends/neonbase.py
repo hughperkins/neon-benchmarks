@@ -15,8 +15,6 @@ init = Gaussian()
 
 class Test(object):
     def __init__(self, batch_size, its, layer_def, W, I, gradO):
-        np.random.seed(123)
-
         gen_backend(backend='gpu', batch_size=batch_size,
                 datatype=np.float32, device_id=0)
 
@@ -27,6 +25,8 @@ class Test(object):
         assert layer_def['iH'] == layer_def['iW']
         assert layer_def['kH'] == layer_def['kW']
         padding = (filter_size // 2)
+
+        assert input_filters >= 4
 
         self.I = I
         self.W = W

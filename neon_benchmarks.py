@@ -4,11 +4,15 @@ feed it a model name, will run benchmarks for that model
 from __future__ import print_function, division
 import sys
 import time
+import logging
 import importlib
 import numpy as np
 import argparse
 import cpuref
 import random
+import traceback
+
+logger = logging.getLogger()
 
 def check_outputs(batch_size, layer_def, gpu_O, I, W, eps=1e-4):
     input_filters = layer_def['Ci']
@@ -137,10 +141,13 @@ if __name__ == '__main__':
     parser.add_argument('--backend', default='winogradcl')
     parser.add_argument('--model', default='vgga')
     parser.add_argument('--layer', default='all', help='zero-indexed')
+    parser.add_argument('--loglevel', default='INFO')
     args = parser.parse_args()
 
     model_name = args.model
     backend_name = args.backend
+    logging.basicConfig()
+    logger.setLevel(args.loglevel.upper())
     print('model_name', model_name, 'backend_name', backend_name)
 
     its = 10
@@ -154,13 +161,14 @@ if __name__ == '__main__':
     for i, layer_def in enumerate(model.get_net()):
         if args.layer != 'all' and str(i) != args.layer:
             continue
-        if layer_def['Ci'] >= 4:
-            print('RUNNING', layer_def)
+        try:
             res = test(backend, batch_size, its, layer_def)
 #            results.append(res)
+            print('RUNNING', layer_def)
             results.append('Layer %s: fprop=%.3f bprop=%.3f eps_O=%.0e eps_gradW=%.0e eps_gradI=%.0e' % (
                 i, res['fprop'], res['bprop'], res['eps_O'], res['eps_gradW'], res['eps_gradI']))
-        else:
+        except Exception as e:
+            logger.debug(traceback.format_exc())
             print('SKIPPING', layer_def)
             results.append('Layer %s: SKIPPING' % i)
     print('')
