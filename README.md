@@ -39,3 +39,7 @@ There are different network models in the [models](models) directory.  Simply us
 neon_benchmarks.py --model simple1
 ```
 
+## Results
+
+* [VGG A on Titan X](results/vgga_summary.md)
+
