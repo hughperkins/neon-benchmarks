@@ -2,7 +2,7 @@
 
 These results are for [VGG A](../models/vgga.py), on a Titan X.
 
-## Nervana Neon CUDA/SASS kernels for Maxwell
+## Nervana Neon CUDA/SASS Winograd kernels for Maxwell
 
 ```
 Layer 0: fprop=0.004 bprop=0.036 eps_O=3e-07 eps_gradW=2e-03 eps_gradI=4e-05
@@ -15,7 +15,7 @@ Layer 6: fprop=0.005 bprop=0.010 eps_O=8e-05 eps_gradW=4e-04 eps_gradI=9e-05
 Layer 7: fprop=0.005 bprop=0.010 eps_O=8e-05 eps_gradW=4e-04 eps_gradI=9e-05
 ```
 
-## Nervana Neon Kepler kernels, in CUDA
+## Nervana Neon Kepler direct kernels, in CUDA
 
 ```
 Layer 0: SKIPPED
@@ -28,7 +28,7 @@ Layer 6: fprop=0.016 bprop=0.053 eps_O=4e-05 eps_gradW=2e-05 eps_gradI=3e-05
 Layer 7: fprop=0.016 bprop=0.053 eps_O=4e-05 eps_gradW=2e-05 eps_gradI=3e-05
 ```
 
-## OpenCL port of Nervana Neon Kepler kernels
+## OpenCL port of Nervana Neon Kepler direct kernels
 
 ```
 Layer 0: SKIPPED
