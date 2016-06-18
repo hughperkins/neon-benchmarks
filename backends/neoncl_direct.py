@@ -5,10 +5,8 @@ import time
 import importlib
 import numpy as np
 import pyopencl as cl
-# from winogradcl.backends.kernels.cl.mycltensor import MyClTensor
-from winogradcl import api
+from neoncl import api
 
-# from winogradcl.backends.make_backend import make_backend
 
 mf = cl.mem_flags
 

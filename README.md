@@ -1,5 +1,5 @@
 # neon-benchmarks
-benchmarks for neon, both cuda and OpenCL version
+benchmarks for neon, for various backends, including OpenCL direct.
 
 This is a separate repo, so it can be used against both repos
 
@@ -7,7 +7,7 @@ Pluggable test backend lets tests run against both
 
 ## How to use: winogradcl
 
-* install winogradcl https://github.com/hughperkins/winogradCl-underconstruction
+* install winogradcl https://github.com/hughperkins/neonCl-underconstruction
 * install neon-benchmarks, eg:
 ```
 pip install -e ./
