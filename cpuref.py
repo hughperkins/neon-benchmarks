@@ -23,18 +23,25 @@ Where:
   n: index into batch
 """
 
-def check_O(gpu_O, W, I, c, h, w, n, pad, stride, eps=1e-4):
+def check_O(gpu_O, W, I, co, oh, ow, n, pad, stride, eps=1e-4):
     Ci = W.shape[0]
     iH = I.shape[1]
     iW = I.shape[2]
     Co = W.shape[3]
     kH = W.shape[1]
     kW = W.shape[2]
+
 #    print('Ci', Ci, 'iH', iH, 'iW', iW, 'Co', Co, 'kH', kH, 'kW', kW)
 
-    co = c
+    # co = c
     padw = pad
     padh = pad
+
+    oH = iH // stride + 2 * padh - (kH // 2) * 2
+    oW = iW // stride + 2 * padw - (kW // 2) * 2
+
+    # ih = oh * stride
+    # iw = ow * stride
 
     dh = stride
     dw = stride
@@ -45,15 +52,15 @@ def check_O(gpu_O, W, I, c, h, w, n, pad, stride, eps=1e-4):
     for kw in range(kW):
         for kh in range(kH):
             for ci in range(Ci):
-                ih = h * dh + kh - padh
-                iw = w * dw + kw - padw
+                ih = oh * dh + kh - padh
+                iw = ow * dw + kw - padw
                 if ih >= 0 and iw >= 0 and ih < iH and iw < iW:
                     v = I[ci, ih, iw, n] * W[ci, kh, kw, co]
                     sum += v
     cpu_value = sum
-    gpu_value = gpu_O[c*iH*iW + h*iW + w,n]
+    gpu_value = gpu_O[co*oH*oW + oh*oW + ow,n]
     diff = abs(cpu_value - gpu_value)
-    print('check O c=%s h=%s w=%s n=%s cpu %.4f gpu %.4f diff=%.4f' % (c, h, w, n, cpu_value, gpu_value, diff))
+    print('check O co=%s oh=%s ow=%s n=%s cpu %.4f gpu %.4f diff=%.4f' % (co, oh, ow, n, cpu_value, gpu_value, diff))
 #    assert abs(cpu_value - gpu_value) < eps
     return diff
 
@@ -82,6 +89,9 @@ def check_gradW(I, W, gradO, gradW, ci, h, w, co, pad, stride, eps=1e-2):
     dh = stride
     dw = stride
 
+    oH = iH // stride + 2 * padh - (kH // 2) * 2
+    oW = iW // stride + 2 * padw - (kW // 2) * 2
+
     sum = 0
 
     for ow in range(oW):
@@ -90,7 +100,7 @@ def check_gradW(I, W, gradO, gradW, ci, h, w, co, pad, stride, eps=1e-2):
             iw = ow * dw + kw - padw
             for n in range(N):
                 if ih >= 0 and iw >= 0 and ih < iH and iw < iW:
-                    v = I[ci, ih, iw, n] * gradO[co * iH * iW + oh * iW + ow, n]
+                    v = I[ci, ih, iw, n] * gradO[co * oH * oW + oh * oW + ow, n]
                     sum += v
     cpu_value = sum
     gpu_value = gradW[ci, kh, kw, co]
@@ -112,8 +122,11 @@ def check_gradI(W, gradO, gradI, c, h, w, n, pad, stride, eps=1e-4):
     oW = iW # assuming padded, which it is
 #    print('Ci', Ci, 'iH', iH, 'iW', iW, 'Co', Co, 'kH', kH, 'kW', kW)
 
-    ih = h
-    iw = w
+    oH = iH // stride
+    oW = iW // stride
+
+    ih = h // stride
+    iw = w // stride
     ci = c
 
     padw = pad
@@ -122,6 +135,9 @@ def check_gradI(W, gradO, gradI, c, h, w, n, pad, stride, eps=1e-4):
     dh = stride
     dw = stride
 
+    oH = iH // stride + 2 * padh - (kH // 2) * 2
+    oW = iW // stride + 2 * padw - (kW // 2) * 2
+
     sum = 0
     for co in range(Co):
         for kh in range(kH):
@@ -129,7 +145,7 @@ def check_gradI(W, gradO, gradI, c, h, w, n, pad, stride, eps=1e-4):
                 ow = iw * dh - kw + padw
                 oh = ih * dw - kh + padh
                 if ow >= 0 and oh >= 0 and ow < oW and oh < oH:
-                    v = gradO[co * iH * iW + oh * iW + ow, n] * W[ci, kh, kw, co]
+                    v = gradO[co * oH * oW + oh * oW + ow, n] * W[ci, kh, kw, co]
                     sum += v
     cpu_value = sum
     gpu_value = gradI[c, ih, iw, n]

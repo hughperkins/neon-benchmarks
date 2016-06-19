@@ -27,16 +27,18 @@ def check_outputs(batch_size, layer_def, gpu_O, I, W, eps=1e-4):
     stride = layer_def['dH']
     pad = layer_def['padH']
 
+    output_size = image_size // 2  # not quite true, maybe close enough for sampling??
+
     random.seed(123)
     # prepare params now, in case something else modifies seed later
     params = []
-    params.append({'c': 0, 'h': 0, 'w': 0, 'n': 0})
+    params.append({'co': 0, 'oh': 0, 'ow': 0, 'n': 0})
     for i in range(10):  # draw 10 samples
         co = random.randint(0, output_filters - 1)
-        oh = random.randint(0, image_size - 1)
-        ow = random.randint(0, image_size - 1)
+        oh = random.randint(0, output_size - 1)
+        ow = random.randint(0, output_size - 1)
         n = random.randint(0, batch_size - 1)
-        params.append({'c': co, 'h': oh, 'w': ow, 'n': n})
+        params.append({'co': co, 'oh': oh, 'ow': ow, 'n': n})
 #    cpuref.check_O(gpu_O=gpu_O, W=W, I=I, c=0, h=0, w=0, n=0, eps=eps)
     diffs = []
     for param in params:
@@ -99,12 +101,17 @@ def test(backend, batch_size, its, layer_def):
     output_filters = layer_def['Co']
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
+    stride = layer_def['dH']
+    pad = layer_def['padH']
+
+    output_size = image_size // stride + 2 * pad - (kernel_size // 2) * 2
+    print('image_size', image_size, 'output_size', output_size)
 
     np.random.seed(123)
     I = np.zeros((input_filters,image_size, image_size, batch_size), dtype=np.float32)
     I[:] = np.random.randn(*I.shape)
     W = np.random.randn(input_filters, kernel_size, kernel_size, output_filters).astype(np.float32)
-    gradO = np.random.randn(image_size * image_size * output_filters, batch_size).astype(np.float32)
+    gradO = np.random.randn(output_size * output_size * output_filters, batch_size).astype(np.float32)
 
     # we copy the tensors, to make sure the backend doesnt sneakily modify them itself :-P
     backend_obj = backend.Test(batch_size=batch_size, its=its, layer_def=layer_def, I=np.copy(I), W=np.copy(W), gradO=np.copy(gradO))
@@ -112,6 +119,8 @@ def test(backend, batch_size, its, layer_def):
     # check correctness, for a few values, (this also serves as warmup):
     backend_obj.fprop()
     O = backend_obj.getO()
+    print('I.shape', I.shape)
+    print('O.shape', O.shape)
     O_diffs = check_outputs(batch_size, layer_def, gpu_O=O, I=I, W=W)
 
     backend_obj.bprop()
