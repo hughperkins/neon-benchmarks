@@ -15,10 +15,17 @@ import traceback
 logger = logging.getLogger()
 
 def check_outputs(batch_size, layer_def, gpu_O, I, W, eps=1e-4):
+    assert layer_def['iH'] == layer_def['iW']
+    assert layer_def['kH'] == layer_def['kW']
+    assert layer_def['dH'] == layer_def['dW']
+    assert layer_def['padH'] == layer_def['padW']
+
     input_filters = layer_def['Ci']
     output_filters = layer_def['Co']
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
+    stride = layer_def['dH']
+    pad = layer_def['padH']
 
     random.seed(123)
     # prepare params now, in case something else modifies seed later
@@ -33,7 +40,7 @@ def check_outputs(batch_size, layer_def, gpu_O, I, W, eps=1e-4):
 #    cpuref.check_O(gpu_O=gpu_O, W=W, I=I, c=0, h=0, w=0, n=0, eps=eps)
     diffs = []
     for param in params:
-        diffs.append(cpuref.check_O(gpu_O=gpu_O, W=W, I=I, eps=eps, **param))
+        diffs.append(cpuref.check_O(gpu_O=gpu_O, W=W, I=I, pad=pad, stride=stride, eps=eps, **param))
     return sum(diffs) / len(diffs)
 
 def check_gradW(batch_size, layer_def, gpu_gradW, I, W, gradO, eps=1e-4):
@@ -41,18 +48,22 @@ def check_gradW(batch_size, layer_def, gpu_gradW, I, W, gradO, eps=1e-4):
     output_filters = layer_def['Co']
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
+    stride = layer_def['dH']
+    pad = layer_def['padH']
 
     diffs = []
     random.seed(123)
     gpu_gradW = gpu_gradW.reshape((input_filters, kernel_size, kernel_size, output_filters))
-    diff = cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, ci=0, h=0, w=0, co=0, eps=eps)
+    diff = cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, pad=pad, stride=stride,
+                              ci=0, h=0, w=0, co=0, eps=eps)
     diffs.append(diff)
     for i in range(10):  # draw 10 samples
         co = random.randint(0, output_filters - 1)
         kh = random.randint(0, kernel_size - 1)
         kw = random.randint(0, kernel_size - 1)
         ci = random.randint(0, input_filters - 1)
-        diff = cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, co=co, h=kh, w=kw, ci=ci, eps=eps)
+        diff = cpuref.check_gradW(gradW=gpu_gradW, W=W, I=I, gradO=gradO, pad=pad, stride=stride,
+                                  co=co, h=kh, w=kw, ci=ci, eps=eps)
         diffs.append(diff)
     return sum(diffs) / len(diffs)
 
@@ -61,22 +72,28 @@ def check_gradI(batch_size, layer_def, gpu_gradI, W, gradO, eps=1e-4):
     output_filters = layer_def['Co']
     image_size = layer_def['iW']
     kernel_size = layer_def['kH']
+    stride = layer_def['dH']
+    pad = layer_def['padH']
 
     diffs = []
     random.seed(123)
     gpu_gradI = gpu_gradI.reshape((input_filters, image_size, image_size, batch_size))
-    diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=0, h=0, w=0, n=0, eps=eps))
+    diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, pad=pad, stride=stride,
+                                    c=0, h=0, w=0, n=0, eps=eps))
     for i in range(10):  # draw 10 samples
         ci = random.randint(0, input_filters - 1)
         ih = random.randint(0, image_size - 1)
         iw = random.randint(0, image_size - 1)
         n = random.randint(0, batch_size - 1)
-        diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, c=ci, h=ih, w=iw, n=n, eps=eps))
+        diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, pad=pad, stride=stride,
+                                        c=ci, h=ih, w=iw, n=n, eps=eps))
     return sum(diffs) / len(diffs)
 
 def test(backend, batch_size, its, layer_def):
     assert layer_def['iH'] == layer_def['iW']
     assert layer_def['kH'] == layer_def['kW']
+    assert layer_def['dH'] == layer_def['dW']
+    assert layer_def['padH'] == layer_def['padW']
 
     input_filters = layer_def['Ci']
     output_filters = layer_def['Co']

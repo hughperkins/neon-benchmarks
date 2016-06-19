@@ -5,10 +5,8 @@ def get_batchsize():
 
 def get_net():
     net = []
-    layer = {'Ci': 32, 'Co': 32, 'iH': 64, 'iW': 64, 'kH': 3, 'kW': 3}
-#    layer['epsO'] = 1e-4
-#    layer['epsGradW'] = 1e-3
-#    layer['epsGradI'] = 1e-4
+    layer = {'Ci': 32, 'Co': 32, 'iH': 64, 'iW': 64, 'kH': 3, 'kW': 3, 'padH': 1, 'padW': 1,
+             'dH': 1, 'dW': 1}
     net.append(layer)
     return net
 

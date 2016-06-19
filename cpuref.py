@@ -23,7 +23,41 @@ Where:
   n: index into batch
 """
 
-def check_gradW(I, W, gradO, gradW, ci, h, w, co, eps=1e-2):
+def check_O(gpu_O, W, I, c, h, w, n, pad, stride, eps=1e-4):
+    Ci = W.shape[0]
+    iH = I.shape[1]
+    iW = I.shape[2]
+    Co = W.shape[3]
+    kH = W.shape[1]
+    kW = W.shape[2]
+#    print('Ci', Ci, 'iH', iH, 'iW', iW, 'Co', Co, 'kH', kH, 'kW', kW)
+
+    co = c
+    padw = pad
+    padh = pad
+
+    dh = stride
+    dw = stride
+
+    # we are going to apply entire kernel, over all input channels, to the input
+    # image, in one location
+    sum = 0
+    for kw in range(kW):
+        for kh in range(kH):
+            for ci in range(Ci):
+                ih = h * dh + kh - padh
+                iw = w * dw + kw - padw
+                if ih >= 0 and iw >= 0 and ih < iH and iw < iW:
+                    v = I[ci, ih, iw, n] * W[ci, kh, kw, co]
+                    sum += v
+    cpu_value = sum
+    gpu_value = gpu_O[c*iH*iW + h*iW + w,n]
+    diff = abs(cpu_value - gpu_value)
+    print('check O c=%s h=%s w=%s n=%s cpu %.4f gpu %.4f diff=%.4f' % (c, h, w, n, cpu_value, gpu_value, diff))
+#    assert abs(cpu_value - gpu_value) < eps
+    return diff
+
+def check_gradW(I, W, gradO, gradW, ci, h, w, co, pad, stride, eps=1e-2):
 #    eps = 1e4 #hack
     N = I.shape[3]
     iH = I.shape[1]
@@ -42,15 +76,18 @@ def check_gradW(I, W, gradO, gradW, ci, h, w, co, eps=1e-2):
     kw = w
 #    ci = c
 
-    padw = 1
-    padh = 1
+    padw = pad
+    padh = pad
+
+    dh = stride
+    dw = stride
 
     sum = 0
 
     for ow in range(oW):
         for oh in range(oH):
-            ih = oh + kh - padh
-            iw = ow + kw - padw
+            ih = oh * dh + kh - padh
+            iw = ow * dw + kw - padw
             for n in range(N):
                 if ih >= 0 and iw >= 0 and ih < iH and iw < iW:
                     v = I[ci, ih, iw, n] * gradO[co * iH * iW + oh * iW + ow, n]
@@ -63,7 +100,7 @@ def check_gradW(I, W, gradO, gradW, ci, h, w, co, eps=1e-2):
 #    assert abs(cpu_value - gpu_value) < eps
     return diff
 
-def check_gradI(W, gradO, gradI, c, h, w, n, eps=1e-4):
+def check_gradI(W, gradO, gradI, c, h, w, n, pad, stride, eps=1e-4):
     N = gradI.shape[3]
     iH = gradI.shape[1]
     iW = gradI.shape[2]
@@ -79,15 +116,18 @@ def check_gradI(W, gradO, gradI, c, h, w, n, eps=1e-4):
     iw = w
     ci = c
 
-    padw = 1
-    padh = 1
+    padw = pad
+    padh = pad
+
+    dh = stride
+    dw = stride
 
     sum = 0
     for co in range(Co):
         for kh in range(kH):
             for kw in range(kW):
-                ow = iw - kw + padw
-                oh = ih - kh + padh
+                ow = iw * dh - kw + padw
+                oh = ih * dw - kh + padh
                 if ow >= 0 and oh >= 0 and ow < oW and oh < oH:
                     v = gradO[co * iH * iW + oh * iW + ow, n] * W[ci, kh, kw, co]
                     sum += v
@@ -96,37 +136,6 @@ def check_gradI(W, gradO, gradI, c, h, w, n, eps=1e-4):
 #    print('gpu', gpu_value, 'cpu', cpu_value)
     diff = abs(cpu_value - gpu_value)
     print('check gradI c=%s h=%s w=%s n=%s cpu %.4f gpu %.4f diff=%.4f' % (c, h, w, n, cpu_value, gpu_value, diff))
-#    assert abs(cpu_value - gpu_value) < eps
-    return diff
-
-def check_O(gpu_O, W, I, c, h, w, n, eps=1e-4):
-    Ci = W.shape[0]
-    iH = I.shape[1]
-    iW = I.shape[2]
-    Co = W.shape[3]
-    kH = W.shape[1]
-    kW = W.shape[2]
-#    print('Ci', Ci, 'iH', iH, 'iW', iW, 'Co', Co, 'kH', kH, 'kW', kW)
-
-    co = c
-    padw = 1
-    padh = 1
-
-    # we are going to apply entire kernel, over all input channels, to the input
-    # image, in one location
-    sum = 0
-    for kw in range(kW):
-        for kh in range(kH):
-            for ci in range(Ci):
-                ih = h + kh - padh
-                iw = w + kw - padw
-                if ih >= 0 and iw >= 0 and ih < iH and iw < iW:
-                    v = I[ci, ih, iw, n] * W[ci, kh, kw, co]
-                    sum += v
-    cpu_value = sum
-    gpu_value = gpu_O[c*iH*iW + h*iW + w,n]
-    diff = abs(cpu_value - gpu_value)
-    print('check O c=%s h=%s w=%s n=%s cpu %.4f gpu %.4f diff=%.4f' % (c, h, w, n, cpu_value, gpu_value, diff))
 #    assert abs(cpu_value - gpu_value) < eps
     return diff
 

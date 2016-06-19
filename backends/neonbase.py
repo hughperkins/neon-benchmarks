@@ -18,13 +18,17 @@ class Test(object):
         gen_backend(backend='gpu', batch_size=batch_size,
                 datatype=np.float32, device_id=0)
 
+        assert layer_def['iH'] == layer_def['iW']
+        assert layer_def['kH'] == layer_def['kW']
+        assert layer_def['dH'] == layer_def['dW']
+        assert layer_def['padH'] == layer_def['padW']
+
         input_filters = layer_def['Ci']
         output_filters = layer_def['Co']
         image_size = layer_def['iW']
         filter_size = layer_def['kH']
-        assert layer_def['iH'] == layer_def['iW']
-        assert layer_def['kH'] == layer_def['kW']
-        padding = (filter_size // 2)
+        padding = layer_def['padH']
+        stride = layer_def['dH']
 
         self.I = I
         self.W = W
@@ -34,7 +38,7 @@ class Test(object):
         gradO_cuda = gpuarray.to_gpu(gradO)
         W_cuda = gpuarray.to_gpu(W)
 
-        conv = Convolution((filter_size, filter_size, output_filters), strides=1, padding=padding, init=init)
+        conv = Convolution((filter_size, filter_size, output_filters), strides=stride, padding=padding, init=init)
         conv.configure((input_filters, image_size, image_size))
         conv.allocate()
 #        conv.allocate_deltas()
