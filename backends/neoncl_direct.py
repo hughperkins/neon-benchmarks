@@ -13,10 +13,10 @@ mf = cl.mem_flags
 class Test(object):
     def __init__(self, batch_size, its, layer_def, W, I, gradO):
         assert layer_def['iH'] == layer_def['iW']
-        assert layer_def['kH'] == layer_def['kW'] == 3
+        assert layer_def['kH'] == layer_def['kW']# == 3
         assert layer_def['padH'] == layer_def['padW'] # == 1
 
-        assert layer_def['kH'] == 3
+        # assert layer_def['kH'] == 3
         # assert layer_def['padH'] == 1
         assert layer_def['Ci'] >= 4
 
@@ -25,6 +25,8 @@ class Test(object):
         image_size = layer_def['iW']
         pad = layer_def['padW']
         stride = layer_def['dW']
+        kH = layer_def['kH']
+        kW = layer_def['kW']
 
         self.W = W
         self.I = I
@@ -54,7 +56,7 @@ class Test(object):
         gradI = np.zeros((input_filters,image_size, image_size,batch_size), dtype=np.float32)
         gradI_cl = cl.Buffer(ctx, mf.READ_WRITE | mf.COPY_HOST_PTR, hostbuf=gradI)
 
-        gradW = np.zeros((input_filters,3,3,output_filters), dtype=np.float32)
+        gradW = np.zeros((input_filters,kH,kW,output_filters), dtype=np.float32)
         gradW_cl = cl.Buffer(ctx, mf.READ_WRITE | mf.COPY_HOST_PTR, hostbuf=gradW)
 
         self.convolver = api.Convolver(ctx, batch_size, input_filters, output_filters,
