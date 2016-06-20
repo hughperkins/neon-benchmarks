@@ -12,13 +12,19 @@ mf = cl.mem_flags
 
 class Test(object):
     def __init__(self, batch_size, its, layer_def, W, I, gradO):
+        assert layer_def['iH'] == layer_def['iW']
+        assert layer_def['kH'] == layer_def['kW'] == 3
+        assert layer_def['padH'] == layer_def['padW'] # == 1
+
+        assert layer_def['kH'] == 3
+        # assert layer_def['padH'] == 1
+        assert layer_def['Ci'] >= 4
+
         input_filters = layer_def['Ci']
         output_filters = layer_def['Co']
         image_size = layer_def['iW']
-        assert layer_def['iH'] == image_size
-        assert layer_def['kH'] == layer_def['kW'] == 3
-
-        assert input_filters >= 4
+        pad = layer_def['padW']
+        stride = layer_def['dW']
 
         self.W = W
         self.I = I
@@ -53,7 +59,8 @@ class Test(object):
 
         self.convolver = api.Convolver(ctx, batch_size, input_filters, output_filters,
             layer_def['kH'], layer_def['kW'], layer_def['iH'], layer_def['iW'],
-            layer_def['kH'] // 2, layer_def['kW'] // 2)
+            padH=layer_def['padH'], padW=layer_def['padW'],
+            dH=layer_def['dH'], dW=layer_def['dW'])
         self.scratch_size = self.convolver.getScratchSize()
         self.scratch = np.zeros(self.scratch_size, dtype=np.float32)
         self.scratch_cl = cl.Buffer(ctx, mf.READ_WRITE | mf.COPY_HOST_PTR, hostbuf=self.scratch)
