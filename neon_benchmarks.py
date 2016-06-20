@@ -27,7 +27,8 @@ def check_outputs(batch_size, layer_def, gpu_O, I, W, eps=1e-4):
     stride = layer_def['dH']
     pad = layer_def['padH']
 
-    output_size = image_size // 2  # not quite true, maybe close enough for sampling??
+    #output_size = image_size // 2  # not quite true, maybe close enough for sampling??
+    output_size = (image_size - kernel_size + 2 * pad) // stride + 1
 
     random.seed(123)
     # prepare params now, in case something else modifies seed later
@@ -81,14 +82,20 @@ def check_gradI(batch_size, layer_def, gpu_gradI, W, gradO, eps=1e-4):
     random.seed(123)
     gpu_gradI = gpu_gradI.reshape((input_filters, image_size, image_size, batch_size))
     diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, pad=pad, stride=stride,
-                                    c=0, h=0, w=0, n=0, eps=eps))
+                                    ci=0, ih=0, iw=0, n=0, eps=eps))
+    diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, pad=pad, stride=stride,
+                                    ci=0, ih=0, iw=1, n=0, eps=eps))
+    diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, pad=pad, stride=stride,
+                                    ci=0, ih=1, iw=0, n=0, eps=eps))
+    diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, pad=pad, stride=stride,
+                                    ci=0, ih=1, iw=1, n=0, eps=eps))
     for i in range(10):  # draw 10 samples
         ci = random.randint(0, input_filters - 1)
         ih = random.randint(0, image_size - 1)
         iw = random.randint(0, image_size - 1)
         n = random.randint(0, batch_size - 1)
         diffs.append(cpuref.check_gradI(gradI=gpu_gradI, W=W, gradO=gradO, pad=pad, stride=stride,
-                                        c=ci, h=ih, w=iw, n=n, eps=eps))
+                                        ci=ci, ih=ih, iw=iw, n=n, eps=eps))
     return sum(diffs) / len(diffs)
 
 def test(backend, batch_size, its, layer_def):
@@ -104,14 +111,25 @@ def test(backend, batch_size, its, layer_def):
     stride = layer_def['dH']
     pad = layer_def['padH']
 
-    output_size = image_size // stride + 2 * pad - (kernel_size // 2) * 2
+    output_size = (image_size - kernel_size + 2 * pad) // stride + 1
+
+    # output_size = image_size // stride + 2 * pad - (kernel_size // 2) * 2
     print('image_size', image_size, 'output_size', output_size)
 
-    np.random.seed(123)
     I = np.zeros((input_filters,image_size, image_size, batch_size), dtype=np.float32)
+    W = np.zeros((input_filters, kernel_size, kernel_size, output_filters), dtype=np.float32)
+    gradO = np.zeros((output_filters, output_size, output_size, batch_size), dtype=np.float32)
+
+    np.random.seed(123)
     I[:] = np.random.randn(*I.shape)
-    W = np.random.randn(input_filters, kernel_size, kernel_size, output_filters).astype(np.float32)
-    gradO = np.random.randn(output_size * output_size * output_filters, batch_size).astype(np.float32)
+    W[:] = np.random.randn(*W.shape)
+    gradO[:] = np.random.randn(*gradO.shape)
+
+    #W = np.random.randn(input_filters, kernel_size, kernel_size, output_filters).astype(np.float32)
+    #W.fill(0)
+    #W[0, 1, 1, 0] = 3.0
+    #W[0, 2, 2, 0] = 3.0
+    # gradO = np.random.randn(output_filters, output_size, output_size, batch_size).astype(np.float32)
 
     # we copy the tensors, to make sure the backend doesnt sneakily modify them itself :-P
     backend_obj = backend.Test(batch_size=batch_size, its=its, layer_def=layer_def, I=np.copy(I), W=np.copy(W), gradO=np.copy(gradO))
@@ -126,8 +144,13 @@ def test(backend, batch_size, its, layer_def):
     backend_obj.bprop()
     gradW = backend_obj.getGradW()
     gradI = backend_obj.getGradI()
-    gradW_diffs = check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO)
+    #gradOReshaped = gradO.reshape(output_filters, output_size, output_size, batch_size)
+    #print('gradOReshaped.shape', gradOReshaped.shape)
+    #print('gradOReshaped[0,:,:,0]', gradOReshaped[0,:,:,0])
+    #print('gradI', gradI[0, :, :, 0])
+    #print('gradI[0,:,:,0].shape', gradI[0, :, :, 0].shape)
     gradI_diffs = check_gradI(batch_size, layer_def, gpu_gradI=gradI, W=W, gradO=gradO)
+    gradW_diffs = check_gradW(batch_size, layer_def, gpu_gradW=gradW, I=I, W=W, gradO=gradO)
     
     backend_obj.sync()
 
