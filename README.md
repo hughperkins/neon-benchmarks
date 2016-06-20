@@ -5,9 +5,9 @@ This is a separate repo, so it can be used against both repos
 
 Pluggable test backend lets tests run against both
 
-## How to use: winogradcl
+## How to use: neoncl
 
-* install winogradcl https://github.com/hughperkins/neonCl-underconstruction
+* install neoncl https://github.com/hughperkins/neonCl-underconstruction
 * install neon-benchmarks, eg:
 ```
 pip install -e ./
