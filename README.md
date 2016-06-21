@@ -28,15 +28,21 @@ source .venv/bin/activate
 ```
 pip install -e ./
 ```
-* run:
+* run, Maxwell Winograd SASS kernels:
 ```
-neon_benchmarks.py --backend neonbase
+neon_benchmarks.py --backend neon_maxwell
+```
+* run, Kepler direct CUDA kernels:
+```
+neon_benchmarks.py --backend neon_kepler
 ```
 ## Model selection
 
 There are different network models in the [models](models) directory.  Simply use the `--model` parameter to choose one, eg:
 ```
-neon_benchmarks.py --model simple1
+neon_benchmarks.py --model simple1  # this is mostly for debugging / dev
+neon_benchmarks.py --model alexnet
+neon_benchmarks.py --model vgga
 ```
 
 ## Results
