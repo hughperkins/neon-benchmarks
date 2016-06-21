@@ -30,11 +30,11 @@ pip install -e ./
 ```
 * run, Maxwell Winograd SASS kernels:
 ```
-neon_benchmarks.py --backend neon_maxwell
+neon_benchmarks.py --backend sass_winograd
 ```
 * run, Kepler direct CUDA kernels:
 ```
-neon_benchmarks.py --backend neon_kepler
+neon_benchmarks.py --backend cuda_direct
 ```
 ## Model selection
 
