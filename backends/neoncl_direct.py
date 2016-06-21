@@ -18,7 +18,7 @@ class Test(object):
 
         # assert layer_def['kH'] == 3
         # assert layer_def['padH'] == 1
-        assert layer_def['Ci'] >= 4
+        # assert layer_def['Ci'] >= 4
 
         input_filters = layer_def['Ci']
         output_filters = layer_def['Co']
