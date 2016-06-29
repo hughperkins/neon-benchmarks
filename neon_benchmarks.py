@@ -187,7 +187,7 @@ def test(backend, batch_size, its, layer_def):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--backend', default='neoncl_direct')
+    parser.add_argument('--backend', default='cl_direct')
     parser.add_argument('--model', default='vgga')
     parser.add_argument('--layer', default='all', help='zero-indexed')
     parser.add_argument('--loglevel', default='INFO')

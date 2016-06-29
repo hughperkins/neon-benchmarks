@@ -13,5 +13,7 @@ def get_net():
              'dH': 4, 'dW': 4})  # smaller version of previous layer
     net.append({'Ci': 32, 'Co': 32, 'iH': 64, 'iW': 64, 'kH': 3, 'kW': 3, 'padH': 0, 'padW': 0,
              'dH': 1, 'dW': 1})  # zero padding
+    net.append({'Ci': 32, 'Co': 32, 'iH': 4, 'iW': 4, 'kH': 3, 'kW': 3, 'padH': 1, 'padW': 1,
+             'dH': 1, 'dW': 1})  # simple model for testing M_cl kernel
     return net
 
